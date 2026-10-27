@@ -2,9 +2,7 @@
 <PermissionSet xmlns="http://soap.sforce.com/2006/04/metadata">
 <classAccesses><apexClass>AtlasChatController</apexClass><enabled
     >true</enabled></classAccesses><classAccesses><apexClass
-    >PortfolioController</apexClass><enabled
-    >true</enabled></classAccesses><classAccesses><apexClass
-    >PortfolioPingController</apexClass><enabled>true</enabled></classAccesses>
+    >PortfolioController</apexClass><enabled>true</enabled></classAccesses>
 <description
   >Full access to manage portfolio content, inquiries and analytics.</description>
 <fieldPermissions><editable>true</editable><field

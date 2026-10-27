@@ -1,0 +1,70 @@
+<template>
+  <div class="app">
+    <c-px-nav
+      mode={mode}
+      onmodechange={handleModeChange}
+      onnavigate={handleNavigate}
+    ></c-px-nav>
+
+    <template lwc:if={isLoading}>
+      <div class="status" role="status">
+        <span class="prompt">$</span> sf org display --target-org pratik<span
+          class="cursor"
+        ></span>
+      </div>
+    </template>
+
+    <template lwc:elseif={error}>
+      <div class="status status-error" role="alert">
+        <span class="prompt">$</span> Portfolio data is unavailable right now.
+        Please try again shortly.
+      </div>
+    </template>
+
+    <template lwc:else>
+      <main>
+        <section data-section="about" aria-label="About">
+          <c-px-hero
+            profile={profile}
+            projects={projects}
+            skills={skills}
+            certifications={certifications}
+            onnavigate={handleNavigate}
+          ></c-px-hero>
+          <c-px-stats highlights={highlights}></c-px-stats>
+        </section>
+        <section
+          data-section="experience"
+          class="anchor"
+          aria-label="Experience"
+        >
+          <c-px-timeline
+            experiences={experiences}
+            projects={projects}
+          ></c-px-timeline>
+        </section>
+        <section data-section="projects" class="anchor" aria-label="Projects">
+          <c-px-projects projects={projects} mode={mode}></c-px-projects>
+        </section>
+        <section data-section="skills" class="anchor" aria-label="Skills">
+          <c-px-skill-map skills={skills} projects={projects}></c-px-skill-map>
+        </section>
+        <section
+          data-section="certifications"
+          class="anchor"
+          aria-label="Certifications"
+        >
+          <c-px-certs
+            certifications={certifications}
+            profile={profile}
+          ></c-px-certs>
+        </section>
+      </main>
+      <c-px-footer
+        data-section="contact"
+        profile={profile}
+        generated-at={generatedAt}
+      ></c-px-footer>
+    </template>
+  </div>
+</template>

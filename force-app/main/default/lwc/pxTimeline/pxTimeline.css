@@ -1,0 +1,71 @@
+@import "c/pxTokens";
+
+.log {
+  list-style: none;
+  margin: 0;
+  padding: 0 0 0 1.75rem;
+  border-left: 2px solid var(--px-border);
+}
+
+.commit {
+  position: relative;
+  padding: 0 0 2.5rem;
+}
+
+.node {
+  position: absolute;
+  left: calc(-1.75rem - 7px);
+  top: 0.125rem;
+  width: 12px;
+  height: 12px;
+  border-radius: 50%;
+  background: var(--px-bg);
+  border: 2px solid var(--px-accent);
+}
+
+.commit:first-child .node {
+  background: var(--px-accent);
+  box-shadow: 0 0 12px var(--px-accent);
+}
+
+.meta {
+  font-family: var(--px-mono);
+  font-size: 0.8125rem;
+  margin: 0 0 0.125rem;
+}
+
+.hash {
+  color: #e3b341;
+}
+
+.head {
+  color: var(--px-accent);
+  margin-left: 0.5rem;
+}
+
+.muted {
+  color: var(--px-muted);
+}
+
+.role {
+  font-size: 1.25rem;
+  font-weight: 600;
+  color: var(--px-text);
+  margin: 0.75rem 0 0.25rem;
+}
+
+.company {
+  color: var(--px-text);
+  margin: 0 0 0.75rem;
+}
+
+.engagement {
+  color: var(--px-text-2);
+}
+
+.summary {
+  color: var(--px-text-2);
+  line-height: 1.7;
+  max-width: 46rem;
+  margin: 0 0 0.75rem;
+}

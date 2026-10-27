@@ -1,0 +1,191 @@
+<template>
+  <div class="px-section">
+    <p class="px-section-title">$ sf skills graph --evidence</p>
+    <h2 class="px-heading">Skill map</h2>
+    <p class="intro">
+      Every skill is linked to the projects that prove it, generated from live
+      records. Larger nodes appear in more projects.
+    </p>
+
+    <div class="toolbar">
+      <div class="legend" role="group" aria-label="Highlight a skill category">
+        <template for:each={legend} for:item="item">
+          <button
+            key={item.key}
+            type="button"
+            class="px-btn legend-item"
+            data-name={item.name}
+            aria-pressed={item.pressed}
+            onclick={handleCategory}
+          >
+            <span class="swatch" style={item.swatch}></span>{item.name}
+            <span class="count">{item.count}</span>
+          </button>
+        </template>
+      </div>
+      <div class="views" role="group" aria-label="Skill view">
+        <button
+          type="button"
+          class="px-btn"
+          data-view="map"
+          aria-pressed={mapPressed}
+          onclick={handleView}
+        >
+          map
+        </button>
+        <button
+          type="button"
+          class="px-btn"
+          data-view="list"
+          aria-pressed={listPressed}
+          onclick={handleView}
+        >
+          list
+        </button>
+      </div>
+    </div>
+
+    <template lwc:if={isMap}>
+      <div class="map-wrap">
+        <svg
+          class="map"
+          viewBox={viewBox}
+          role="group"
+          aria-label="Skill map: skills grouped by category and linked to projects"
+        >
+          <g class="links" aria-hidden="true">
+            <template for:each={mapLinks} for:item="link">
+              <path
+                key={link.key}
+                d={link.path}
+                class={link.linkClass}
+                style={link.style}
+              ></path>
+            </template>
+          </g>
+          <g aria-hidden="true">
+            <template for:each={sectors} for:item="sector">
+              <g key={sector.key}>
+                <path d={sector.path} class="band" style={sector.style}></path>
+                <text
+                  x={sector.labelX}
+                  y={sector.labelY}
+                  class="sector-label"
+                  style={sector.textStyle}
+                >
+                  {sector.name}
+                </text>
+              </g>
+            </template>
+          </g>
+          <template for:each={mapProjects} for:item="project">
+            <g
+              key={project.key}
+              class={project.groupClass}
+              data-slug={project.slug}
+              tabindex="0"
+              role="img"
+              aria-label={project.title}
+              onmouseenter={handleProjectEnter}
+              onfocus={handleProjectEnter}
+              onmouseleave={handleLeave}
+              onblur={handleLeave}
+            >
+              <circle
+                cx={project.x}
+                cy={project.y}
+                r="18"
+                class="project-node"
+              ></circle>
+              <text x={project.x} y={project.textY} class="project-code">
+                {project.code}
+              </text>
+            </g>
+          </template>
+          <template for:each={mapSkills} for:item="skill">
+            <g
+              key={skill.key}
+              class={skill.groupClass}
+              data-name={skill.name}
+              tabindex="0"
+              role="img"
+              aria-label={skill.ariaLabel}
+              onmouseenter={handleSkillEnter}
+              onfocus={handleSkillEnter}
+              onmouseleave={handleLeave}
+              onblur={handleLeave}
+            >
+              <circle
+                cx={skill.x}
+                cy={skill.y}
+                r={skill.hitR}
+                class="hit"
+              ></circle>
+              <circle
+                cx={skill.x}
+                cy={skill.y}
+                r={skill.r}
+                fill={skill.color}
+                class="skill-node"
+              ></circle>
+              <text
+                x={skill.labelX}
+                y={skill.labelY}
+                text-anchor={skill.anchor}
+                transform={skill.labelTransform}
+                dominant-baseline="middle"
+                class="skill-label"
+              >
+                {skill.label}
+              </text>
+            </g>
+          </template>
+          <g aria-hidden="true">
+            <text x={center.x} y={centerTitleY} class="center-title">
+              {centerTitle}
+            </text>
+            <text x={center.x} y={centerDetailY} class="center-detail">
+              {center.detail}
+            </text>
+          </g>
+        </svg>
+        <ol class="project-key">
+          <template for:each={projectKey} for:item="p">
+            <li key={p.key}><span class="code">{p.code}</span> {p.title}</li>
+          </template>
+        </ol>
+      </div>
+    </template>
+
+    <template lwc:else>
+      <div class="list">
+        <template for:each={groups} for:item="group">
+          <section key={group.key} class="px-card group">
+            <h3 class="group-title">
+              <span class="swatch" style={group.swatch}></span>{group.name}
+              <span class="count">{group.count}</span>
+            </h3>
+            <table class="table">
+              <thead>
+                <tr>
+                  <th scope="col">Skill</th>
+                  <th scope="col">Evidence</th>
+                  <th scope="col">Projects</th>
+                </tr>
+              </thead>
+              <tbody>
+                <template for:each={group.skills} for:item="s">
+                  <tr key={s.key}>
+                    <th scope="row">{s.name}</th>
+                    <td>{s.evidence}</td>
+                    <td>{s.projects}</td>
+                  </tr>
+                </template>
+              </tbody>
+            </table>
+          </section>
+        </template>
+      </div>
+    </template>
+  </div>
+</template>

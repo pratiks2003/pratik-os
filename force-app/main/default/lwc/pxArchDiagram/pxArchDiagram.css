@@ -1,0 +1,70 @@
+@import "c/pxTokens";
+
+.figure {
+  margin: 0;
+}
+
+.scroll {
+  overflow-x: auto;
+  border: 1px solid var(--px-border);
+  border-radius: 10px;
+  background:
+    radial-gradient(circle, rgba(255, 255, 255, 0.05) 1px, transparent 1px) 0
+      0 / 16px 16px,
+    var(--px-bg);
+  padding: 0.75rem;
+}
+
+.svg {
+  display: block;
+  width: 100%;
+  height: auto;
+}
+
+.node {
+  fill: var(--px-surface-2);
+  stroke: var(--px-accent);
+  stroke-width: 1.25;
+}
+
+.node-label {
+  fill: var(--px-text);
+  font-family: var(--px-mono);
+  font-size: 12px;
+  text-anchor: middle;
+}
+
+.edge-base {
+  fill: none;
+  stroke: var(--px-border);
+  stroke-width: 2;
+}
+
+.edge-flow {
+  fill: none;
+  stroke: var(--px-accent);
+  stroke-width: 2;
+  stroke-dasharray: 6 10;
+  opacity: 0.85;
+  animation: flow 1.2s linear infinite;
+}
+
+.arrow {
+  fill: var(--px-accent);
+}
+
+.edge-label {
+  fill: var(--px-text-2);
+  font-family: var(--px-mono);
+  font-size: 10.5px;
+  text-anchor: middle;
+  paint-order: stroke;
+  stroke: var(--px-bg);
+  stroke-width: 4px;
+}
+
+@keyframes flow {
+  to {
+    stroke-dashoffset: -32;
+  }
+}

@@ -43,7 +43,11 @@ private class PortfolioServiceTest {
       new List<String>{ 'public-project' },
       byName.get('Apex').projectSlugs
     );
-    Assert.areEqual(2, data.projects[0].skills.size());
+    Assert.areEqual(
+      new List<String>{ 'LWC', 'Apex' },
+      data.projects[0].skills,
+      'Skills follow the typed Tech Stack order'
+    );
   }
 
   @IsTest

@@ -1,0 +1,15 @@
+<template>
+  <div class="px-section wrap">
+    <dl class="stats">
+      <template for:each={tiles} for:item="tile">
+        <div key={tile.key} class="tile px-card">
+          <dt class="label">{tile.label}</dt>
+          <dd class="value">
+            <span aria-hidden="true">{tile.value}{tile.suffix}</span>
+            <span class="px-visually-hidden">{tile.finalValue}</span>
+          </dd>
+        </div>
+      </template>
+    </dl>
+  </div>
+</template>

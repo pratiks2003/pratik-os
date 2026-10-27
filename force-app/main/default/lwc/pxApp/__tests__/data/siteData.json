@@ -1,0 +1,98 @@
+{
+  "profile": {
+    "Id": "a00000000000001AAA",
+    "Name": "Ada Example",
+    "Headline__c": "Salesforce Developer",
+    "Tagline__c": "Builds things.",
+    "Availability__c": "Open to opportunities",
+    "Location__c": "Remote",
+    "Open_To_Roles__c": "Developer",
+    "GitHub_URL__c": "https://github.com/example",
+    "Trailhead_URL__c": "https://trailhead.example.com"
+  },
+  "highlights": [
+    {
+      "Id": "a01000000000001AAA",
+      "Name": "Items delivered",
+      "Value__c": 538,
+      "Suffix__c": "+"
+    }
+  ],
+  "experiences": [
+    {
+      "Id": "a02000000000001AAA",
+      "Name": "Developer",
+      "Company__c": "Example Co",
+      "Engagement__c": "Client: Example",
+      "Start_Date__c": "2024-02-01",
+      "Is_Current__c": true,
+      "Summary__c": "Built the platform."
+    }
+  ],
+  "projects": [
+    {
+      "record": {
+        "Id": "a03000000000001AAA",
+        "Name": "Event Engine",
+        "Slug__c": "event-engine",
+        "Tagline__c": "Routes events.",
+        "Category__c": "Integration",
+        "Project_Type__c": "Professional",
+        "Experience__c": "a02000000000001AAA",
+        "Business_Impact__c": "Saved time.",
+        "Technical_Deep_Dive__c": "- Strategy pattern\n- Factory pattern",
+        "STAR_Story__c": "Situation: Slow.\nTask: Fix.\nAction: Built it.\nResult: Fast.",
+        "Metrics__c": "9 strategies · 2 markets",
+        "Architecture_DSL__c": "Client -> Service : request\nService -> Store : write",
+        "Featured__c": true
+      },
+      "skills": ["Apex", "Platform Events"]
+    },
+    {
+      "record": {
+        "Id": "a03000000000002AAA",
+        "Name": "Pipeline",
+        "Slug__c": "pipeline",
+        "Tagline__c": "Ships code.",
+        "Category__c": "DevOps",
+        "Project_Type__c": "Personal",
+        "Business_Impact__c": "Fewer errors.",
+        "Technical_Deep_Dive__c": "Automated deploys.",
+        "Featured__c": false
+      },
+      "skills": ["Apex", "GitHub Actions"]
+    }
+  ],
+  "skills": [
+    {
+      "id": "s1",
+      "name": "Apex",
+      "category": "Apex",
+      "evidenceCount": 2,
+      "projectSlugs": ["event-engine", "pipeline"]
+    },
+    {
+      "id": "s2",
+      "name": "Platform Events",
+      "category": "Integration",
+      "evidenceCount": 1,
+      "projectSlugs": ["event-engine"]
+    },
+    {
+      "id": "s3",
+      "name": "GitHub Actions",
+      "category": "DevOps",
+      "evidenceCount": 1,
+      "projectSlugs": ["pipeline"]
+    }
+  ],
+  "certifications": [
+    {
+      "Id": "a04000000000001AAA",
+      "Name": "Platform Developer I",
+      "Issuer__c": "Salesforce",
+      "Issued_Date__c": "2025-11-01"
+    }
+  ],
+  "generatedAt": "2026-10-28T10:00:00.000Z"
+}

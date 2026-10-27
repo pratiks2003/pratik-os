@@ -1,0 +1,27 @@
+<template>
+  <div class="px-section">
+    <p class="px-section-title">$ sf cert list --verified</p>
+    <h2 class="px-heading">Certifications</h2>
+    <ul class="grid">
+      <template for:each={cards} for:item="cert">
+        <li key={cert.key} class="px-card cert">
+          <span class="badge" aria-hidden="true">✓</span>
+          <span class="issuer">{cert.issuer}</span>
+          <span class="name">{cert.name}</span>
+          <template lwc:if={cert.issued}
+            ><span class="issued">{cert.issued}</span></template
+          >
+          <template lwc:if={cert.url}>
+            <a
+              class="px-link verify"
+              href={cert.url}
+              target="_blank"
+              rel="noopener noreferrer"
+              >verify ↗</a
+            >
+          </template>
+        </li>
+      </template>
+    </ul>
+  </div>
+</template>

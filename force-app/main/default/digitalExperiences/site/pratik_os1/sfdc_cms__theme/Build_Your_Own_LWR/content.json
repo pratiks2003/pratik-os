@@ -10,7 +10,7 @@
         "layoutType": "ServiceNotAvailable"
       },
       {
-        "layoutId": "scopedHeaderAndFooter",
+        "layoutId": "pxLayout",
         "layoutType": "Inner"
       }
     ]

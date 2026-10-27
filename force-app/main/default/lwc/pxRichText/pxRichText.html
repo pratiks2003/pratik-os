@@ -1,0 +1,14 @@
+<template>
+  <template for:each={blocks} for:item="block">
+    <template lwc:if={block.isList}>
+      <ul key={block.key} class="list">
+        <template for:each={block.items} for:item="item">
+          <li key={item.key}>{item.text}</li>
+        </template>
+      </ul>
+    </template>
+    <template lwc:else>
+      <p key={block.key} class="paragraph">{block.text}</p>
+    </template>
+  </template>
+</template>

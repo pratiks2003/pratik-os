@@ -1,0 +1,44 @@
+<template>
+  <template lwc:if={hasDiagram}>
+    <figure class="figure">
+      <div class="scroll">
+        <svg
+          class="svg"
+          viewBox={viewBox}
+          style={svgStyle}
+          role="img"
+          aria-label={label}
+        >
+          <template for:each={layout.edges} for:item="edge">
+            <g key={edge.key}>
+              <path d={edge.path} class="edge-base"></path>
+              <path d={edge.path} class="edge-flow"></path>
+              <path d={edge.arrow} class="arrow"></path>
+              <template lwc:if={edge.label}>
+                <text x={edge.labelX} y={edge.labelY} class="edge-label">
+                  {edge.label}
+                </text>
+              </template>
+            </g>
+          </template>
+          <template for:each={layout.nodes} for:item="node">
+            <g key={node.key}>
+              <rect
+                x={node.x}
+                y={node.y}
+                width={node.w}
+                height={node.h}
+                rx="8"
+                class="node"
+              ></rect>
+              <text x={node.textX} y={node.textY} class="node-label">
+                {node.label}
+              </text>
+            </g>
+          </template>
+        </svg>
+      </div>
+      <figcaption class="px-visually-hidden">{description}</figcaption>
+    </figure>
+  </template>
+</template>

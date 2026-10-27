@@ -72,6 +72,7 @@ public with sharing class PortfolioSelector {
         Technical_Deep_Dive__c,
         STAR_Story__c,
         Metrics__c,
+        Tech_Stack__c,
         Architecture_DSL__c,
         Repo_URL__c,
         Featured__c,

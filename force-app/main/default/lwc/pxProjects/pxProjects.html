@@ -1,0 +1,151 @@
+<template>
+  <div class="px-section">
+    <p class="px-section-title">$ ls ~/projects</p>
+    <h2 class="px-heading">Projects</h2>
+
+    <div class="filters" role="group" aria-label="Filter projects by category">
+      <template for:each={filters} for:item="f">
+        <button
+          key={f.key}
+          type="button"
+          class="px-btn"
+          data-name={f.name}
+          aria-pressed={f.pressed}
+          onclick={handleFilter}
+        >
+          {f.name}
+        </button>
+      </template>
+    </div>
+
+    <ul class="grid">
+      <template for:each={cards} for:item="card">
+        <li key={card.key} class="px-card card">
+          <button
+            type="button"
+            class="card-button"
+            data-slug={card.slug}
+            onclick={handleOpen}
+          >
+            <span class="card-top">
+              <span class="index">{card.index}</span>
+              <span class="category">{card.category}</span>
+              <template lwc:if={card.isPersonal}
+                ><span class="badge">personal</span></template
+              >
+              <template lwc:if={card.featured}
+                ><span class="star" aria-label="Featured">★</span></template
+              >
+            </span>
+            <span class="title">{card.title}</span>
+            <span class="blurb">{card.blurb}</span>
+            <span class="metrics">
+              <template for:each={card.metrics} for:item="metric">
+                <span key={metric} class="metric">▸ {metric}</span>
+              </template>
+            </span>
+            <span class="skills">
+              <template for:each={card.skills} for:item="skill">
+                <span key={skill} class="px-tag">{skill}</span>
+              </template>
+              <template lwc:if={card.moreSkills}
+                ><span class="px-tag">{card.moreSkills}</span></template
+              >
+            </span>
+            <span class="open">$ cat {card.slug}.md →</span>
+          </button>
+        </li>
+      </template>
+    </ul>
+  </div>
+
+  <template lwc:if={selected}>
+    <div class="backdrop" onclick={handleBackdrop} onkeydown={handleKeydown}>
+      <div
+        class="dialog px-card"
+        role="dialog"
+        aria-modal="true"
+        aria-labelledby="dialog-title"
+      >
+        <div class="dialog-head">
+          <p class="px-section-title">~/projects/{selectedSlug}.md</p>
+          <button
+            type="button"
+            class="close px-btn"
+            onclick={handleClose}
+            aria-label="Close project"
+          >
+            esc ✕
+          </button>
+        </div>
+        <p class="dialog-meta">{selected.category} · {selected.type}</p>
+        <h3 id="dialog-title" class="dialog-title">{selected.title}</h3>
+        <p class="dialog-tagline">{selected.tagline}</p>
+        <ul class="dialog-metrics">
+          <template for:each={selected.metrics} for:item="metric">
+            <li key={metric} class="px-tag accent">{metric}</li>
+          </template>
+        </ul>
+
+        <div class="tabs" role="tablist" aria-label="Project views">
+          <template for:each={tabs} for:item="t">
+            <button
+              key={t.key}
+              type="button"
+              role="tab"
+              class="tab"
+              data-key={t.key}
+              aria-selected={t.selected}
+              tabindex={t.tabIndex}
+              onclick={handleTab}
+            >
+              {t.label}
+            </button>
+          </template>
+        </div>
+
+        <div class="panel" role="tabpanel">
+          <template lwc:if={isRecruiterTab}>
+            <c-px-rich-text text={selected.impact}></c-px-rich-text>
+          </template>
+          <template lwc:elseif={isEngineerTab}>
+            <c-px-rich-text text={selected.deepDive}></c-px-rich-text>
+            <template lwc:if={selected.diagram}>
+              <h4 class="sub">architecture</h4>
+              <c-px-arch-diagram
+                dsl={selected.diagram}
+                label={selected.title}
+              ></c-px-arch-diagram>
+            </template>
+          </template>
+          <template lwc:elseif={isStoryTab}>
+            <dl class="star-story">
+              <template for:each={selected.star} for:item="part">
+                <div key={part.key} class="star-row">
+                  <dt>{part.label}</dt>
+                  <dd>{part.text}</dd>
+                </div>
+              </template>
+            </dl>
+          </template>
+        </div>
+
+        <h4 class="sub">tech stack</h4>
+        <ul class="stack">
+          <template for:each={selected.skills} for:item="skill">
+            <li key={skill} class="px-tag">{skill}</li>
+          </template>
+        </ul>
+        <template lwc:if={selected.repoUrl}>
+          <a
+            class="px-link repo"
+            href={selected.repoUrl}
+            target="_blank"
+            rel="noopener noreferrer"
+            >view source on GitHub ↗</a
+          >
+        </template>
+      </div>
+    </div>
+  </template>
+</template>

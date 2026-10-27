@@ -1,0 +1,14 @@
+{
+  "type": "sfdc_cms__themeLayout",
+  "title": "pratik.os Layout",
+  "contentBody": {
+    "component": {
+      "attributes": {},
+      "children": [],
+      "definition": "c:pxThemeLayout",
+      "id": "7d1f0a6e-2b5c-4c8e-9e1a-5f0c3a9b2d41",
+      "type": "component"
+    }
+  },
+  "urlName": "pratik-os-layout"
+}

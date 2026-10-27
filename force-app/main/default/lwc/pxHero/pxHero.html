@@ -1,0 +1,69 @@
+<template>
+  <div class="hero px-section">
+    <div class="intro">
+      <template lwc:if={profile.Photo_URL__c}>
+        <img
+          class="photo"
+          src={profile.Photo_URL__c}
+          alt={profile.Name}
+          width="96"
+          height="96"
+        />
+      </template>
+      <p class="px-section-title">// hello, world</p>
+      <h1 class="name">{profile.Name}</h1>
+      <p class="headline">{profile.Headline__c}</p>
+      <p class="tagline">{profile.Tagline__c}</p>
+      <template lwc:if={roles}>
+        <p class="roles"><span class="label">open to</span> {roles}</p>
+      </template>
+      <div class="actions">
+        <button type="button" class="px-btn primary" onclick={handleProjects}>
+          view projects →
+        </button>
+        <button type="button" class="px-btn" onclick={handleContact}>
+          get in touch
+        </button>
+      </div>
+      <ul class="links">
+        <template for:each={links} for:item="link">
+          <li key={link.key}>
+            <a
+              class="px-link"
+              href={link.url}
+              target="_blank"
+              rel="noopener noreferrer"
+              >{link.label} ↗</a
+            >
+          </li>
+        </template>
+      </ul>
+    </div>
+
+    <div class="terminal px-card" aria-label="Live org status">
+      <div class="chrome" aria-hidden="true">
+        <span class="light red"></span><span class="light amber"></span
+        ><span class="light green"></span>
+        <span class="title">zsh — pratik@salesforce</span>
+      </div>
+      <div class="screen" role="log" aria-live="polite">
+        <template for:each={lines} for:item="line">
+          <p key={line.key} class="line">
+            <template lwc:if={line.isCommand}
+              ><span class="prompt">$</span> {line.text}</template
+            >
+            <template lwc:elseif={line.isStatus}
+              ><span class="status-dot"></span> {line.text}</template
+            >
+            <template lwc:else><span class="ok">✔</span> {line.text}</template>
+          </p>
+        </template>
+        <template lwc:if={booted}>
+          <p class="line">
+            <span class="prompt">$</span> <span class="cursor"></span>
+          </p>
+        </template>
+      </div>
+    </div>
+  </div>
+</template>

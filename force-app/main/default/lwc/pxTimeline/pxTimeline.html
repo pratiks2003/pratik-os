@@ -1,0 +1,30 @@
+<template>
+  <div class="px-section">
+    <p class="px-section-title">$ git log --experience</p>
+    <h2 class="px-heading">Experience</h2>
+    <ol class="log">
+      <template for:each={commits} for:item="commit">
+        <li key={commit.key} class="commit">
+          <span class="node" aria-hidden="true"></span>
+          <p class="meta">
+            <span class="hash">commit {commit.hash}</span>
+            <template lwc:if={commit.isHead}
+              ><span class="head">(HEAD → main)</span></template
+            >
+          </p>
+          <p class="meta muted">Date: {commit.dates}</p>
+          <h3 class="role">{commit.role}</h3>
+          <p class="company">
+            {commit.company}<template lwc:if={commit.engagement}
+              ><span class="engagement"> · {commit.engagement}</span></template
+            >
+          </p>
+          <p class="summary">{commit.summary}</p>
+          <template lwc:if={commit.projectLabel}>
+            <span class="px-tag">↳ {commit.projectLabel}</span>
+          </template>
+        </li>
+      </template>
+    </ol>
+  </div>
+</template>

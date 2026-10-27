@@ -7,37 +7,9 @@
         {
           "children": [
             {
-              "attributes": {
-                "backgroundImageConfig": "",
-                "backgroundImageOverlay": "rgba(0,0,0,0)",
-                "componentSpacerSize": "",
-                "layoutDirectionDesktop": "row",
-                "layoutDirectionMobile": "column",
-                "layoutDirectionTablet": "column",
-                "maxContentWidth": "",
-                "sectionColumnGutterWidth": "",
-                "sectionConfig": "{\"UUID\":\"b3bab6eb-479e-46a7-9a4c-178c5aadedba\",\"columns\":[{\"UUID\":\"ba975ac5-e4bc-4573-97b4-78647b4b39d4\",\"columnName\":\"Column 1\",\"columnKey\":\"col1\",\"columnWidth\":\"12\",\"seedComponents\":null}]}",
-                "sectionMinHeight": "",
-                "sectionVerticalAlign": "flex-start"
-              },
-              "children": [
-                {
-                  "children": [
-                    {
-                      "attributes": {},
-                      "definition": "c:pxPing",
-                      "id": "a1f0c0de-0000-4000-8000-000000000001",
-                      "type": "component"
-                    }
-                  ],
-                  "id": "ba975ac5-e4bc-4573-97b4-78647b4b39d4",
-                  "name": "col1",
-                  "title": "Column 1",
-                  "type": "region"
-                }
-              ],
-              "definition": "community_layout:section",
-              "id": "b3bab6eb-479e-46a7-9a4c-178c5aadedba",
+              "attributes": {},
+              "definition": "c:pxApp",
+              "id": "3b6d9c2e-8f41-4a7d-b5e2-0c9f1e7a4d10",
               "type": "component"
             }
           ],
@@ -51,8 +23,8 @@
             {
               "attributes": {
                 "customHeadTags": "",
-                "description": "",
-                "pageTitle": "Pratik Shinde | Salesforce Developer",
+                "description": "Salesforce Developer specialising in Apex, LWC, integrations and Agentforce. Case studies, skills and an AI assistant, served live from a Salesforce org.",
+                "pageTitle": "Pratik Shinde | Salesforce Developer & Engineer",
                 "recordId": "{!recordId}"
               },
               "definition": "community_builder:seoAssistant",

@@ -98,7 +98,7 @@ public class PortfolioTestData {
       Published__c = true
     );
     insert new List<Project__c>{
-      project('Public project', 'Apex, LWC', true),
+      project('Public project', 'LWC, Apex', true),
       project('Draft project', 'Apex, Secret Skill', false)
     };
   }

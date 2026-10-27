@@ -1,0 +1,62 @@
+@import "c/pxTokens";
+
+.grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(min(240px, 100%), 1fr));
+  gap: 1rem;
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.cert {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  gap: 0.375rem;
+  padding: 1.5rem;
+  overflow: hidden;
+}
+
+.cert::after {
+  content: "";
+  position: absolute;
+  inset: 0 0 auto;
+  height: 3px;
+  background: linear-gradient(90deg, #3987e5, var(--px-accent));
+}
+
+.badge {
+  display: grid;
+  place-items: center;
+  width: 2.25rem;
+  height: 2.25rem;
+  border-radius: 50%;
+  background: var(--px-accent-soft);
+  color: var(--px-accent);
+  font-weight: 700;
+  margin-bottom: 0.5rem;
+}
+
+.issuer {
+  font-family: var(--px-mono);
+  font-size: 0.75rem;
+  color: var(--px-muted);
+}
+
+.name {
+  font-size: 1.0625rem;
+  font-weight: 600;
+  color: var(--px-text);
+}
+
+.issued {
+  font-size: 0.8125rem;
+  color: var(--px-text-2);
+}
+
+.verify {
+  font-family: var(--px-mono);
+  font-size: 0.8125rem;
+  margin-top: 0.5rem;
+}

@@ -22,13 +22,29 @@ public with sharing class PortfolioService {
     data.projects = new List<ProjectView>();
     for (Project__c project : selector.getProjects()) {
       ProjectView view = new ProjectView(project);
+      // Show skills in the order they were typed in Tech Stack.
+      List<String> typedOrder = new List<String>(
+        SkillLinkService.parse(project.Tech_Stack__c).keySet()
+      );
+      Map<Integer, String> namesByPosition = new Map<Integer, String>();
       for (Project_Skill__c link : project.Project_Skills__r) {
         SkillView skill = skillsById.get(link.Skill__c);
         if (skill != null) {
           skill.evidenceCount++;
           skill.projectSlugs.add(project.Slug__c);
-          view.skills.add(skill.name);
+          Integer position = typedOrder.indexOf(link.Skill__r.Key__c);
+          namesByPosition.put(
+            position < 0
+              ? typedOrder.size() + namesByPosition.size()
+              : position,
+            skill.name
+          );
         }
+      }
+      List<Integer> positions = new List<Integer>(namesByPosition.keySet());
+      positions.sort();
+      for (Integer position : positions) {
+        view.skills.add(namesByPosition.get(position));
       }
       data.projects.add(view);
     }

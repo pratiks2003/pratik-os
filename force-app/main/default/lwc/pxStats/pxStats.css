@@ -1,0 +1,49 @@
+@import "c/pxTokens";
+
+.wrap {
+  padding-top: 0;
+  padding-bottom: 0;
+}
+
+.stats {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(min(200px, 100%), 1fr));
+  gap: 1rem;
+  margin: 0;
+}
+
+.tile {
+  padding: 1.25rem 1.5rem;
+  display: flex;
+  flex-direction: column-reverse;
+  gap: 0.25rem;
+}
+
+.label {
+  font-size: 0.875rem;
+  color: var(--px-text-2);
+}
+
+.value {
+  margin: 0;
+  font-family: var(--px-sans);
+  font-size: 2.25rem;
+  font-weight: 600;
+  letter-spacing: -0.02em;
+  color: var(--px-text);
+}
+
+@media (max-width: 600px) {
+  .stats {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 0.75rem;
+  }
+
+  .tile {
+    padding: 1rem;
+  }
+
+  .value {
+    font-size: 1.75rem;
+  }
+}

@@ -57,8 +57,7 @@ public with sharing class SkillLinkService {
   }
 
   /** Returns normalised key -> display name, keeping the first spelling used. */
-  @TestVisible
-  private static Map<String, String> parse(String techStack) {
+  public static Map<String, String> parse(String techStack) {
     Map<String, String> skills = new Map<String, String>();
     if (String.isBlank(techStack)) {
       return skills;

@@ -1,0 +1,47 @@
+<template>
+  <header class="nav">
+    <div class="inner">
+      <button
+        class="logo"
+        type="button"
+        onclick={handleHome}
+        aria-label="Back to top"
+      >
+        <span class="prompt">❯</span> pratik<span class="dot">.os</span>
+      </button>
+      <nav class="links" aria-label="Sections">
+        <template for:each={links} for:item="link">
+          <button
+            key={link.section}
+            type="button"
+            class="link"
+            data-section={link.section}
+            onclick={handleLink}
+          >
+            {link.label}
+          </button>
+        </template>
+      </nav>
+      <div class="mode" role="group" aria-label="View mode">
+        <button
+          type="button"
+          class="px-btn"
+          data-mode="recruiter"
+          aria-pressed={isRecruiter}
+          onclick={handleMode}
+        >
+          recruiter
+        </button>
+        <button
+          type="button"
+          class="px-btn"
+          data-mode="engineer"
+          aria-pressed={isEngineer}
+          onclick={handleMode}
+        >
+          engineer
+        </button>
+      </div>
+    </div>
+  </header>
+</template>

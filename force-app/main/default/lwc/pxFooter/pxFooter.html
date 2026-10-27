@@ -1,0 +1,42 @@
+<template>
+  <footer class="footer">
+    <div class="px-section inner">
+      <p class="px-section-title">$ hire pratik</p>
+      <h2 class="px-heading">Let's build something.</h2>
+      <p class="lead">
+        {profile.Availability__c}. The fastest way to reach Pratik is LinkedIn,
+        and soon you can ask Atlas, his AI assistant, right here.
+      </p>
+      <ul class="links">
+        <template for:each={links} for:item="link">
+          <li key={link.key}>
+            <a
+              class="px-btn"
+              href={link.url}
+              target="_blank"
+              rel="noopener noreferrer"
+              >{link.label} ↗</a
+            >
+          </li>
+        </template>
+      </ul>
+      <div class="meta">
+        <p>
+          Built on Salesforce · Experience Cloud (LWR) · Lightning Web
+          Components · Apex · Agentforce ·
+          <a
+            class="px-link"
+            href={repoUrl}
+            target="_blank"
+            rel="noopener noreferrer"
+            >view source ↗</a
+          >
+        </p>
+        <template lwc:if={fetchedAt}
+          ><p>Data served live from the org · {fetchedAt}</p></template
+        >
+        <p>© {year} {profile.Name}</p>
+      </div>
+    </div>
+  </footer>
+</template>

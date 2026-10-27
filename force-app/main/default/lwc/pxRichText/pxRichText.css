@@ -1,0 +1,23 @@
+:host {
+  display: block;
+  color: var(--px-text-2);
+  font-size: 0.9375rem;
+  line-height: 1.7;
+}
+
+.paragraph {
+  margin: 0 0 1rem;
+}
+
+.list {
+  margin: 0 0 1rem;
+  padding-left: 1.25rem;
+}
+
+.list li {
+  margin-bottom: 0.5rem;
+}
+
+.list li::marker {
+  color: var(--px-accent);
+}
