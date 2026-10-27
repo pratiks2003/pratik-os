@@ -1,10 +1,13 @@
 /**
- * Emails every Portfolio_Admin user when a new inquiry arrives. Runs without
- * sharing because inquiries are created by the site guest user and the Atlas
- * agent user, who cannot see admin assignments; it only reads those and
- * stamps Notification_Status__c. A failed alert never blocks the inquiry. Sends to an internal user via
- * setTargetObjectId, which does not count against the org's daily limit
- * for external emails.
+ * Alerts every Portfolio_Admin user when a new inquiry arrives, by email and
+ * by a Salesforce custom notification (bell icon and mobile push), so a lead
+ * is never missed if an inbox filters the email.
+ *
+ * Runs without sharing because inquiries are created by the site guest user
+ * and the Atlas agent user, who cannot see admin assignments; it only reads
+ * those and stamps Notification_Status__c. A failed alert never blocks the
+ * inquiry. Emails go to internal users via setTargetObjectId, which does not
+ * count against the org's daily limit for external emails.
  */
 public without sharing class InquiryNotifier extends TriggerHandler {
   @TestVisible
@@ -49,6 +52,7 @@ public without sharing class InquiryNotifier extends TriggerHandler {
         Messaging.SingleEmailMessage email = new Messaging.SingleEmailMessage();
         email.setTargetObjectId(recipient.Id);
         email.setSaveAsActivity(false);
+        email.setSenderDisplayName('pratik.os');
         email.setSubject(
           'New portfolio inquiry ' +
             inquiry.Name +
@@ -84,7 +88,59 @@ public without sharing class InquiryNotifier extends TriggerHandler {
         emailInquiryIds.add(inquiry.Id);
       }
     }
-    recordStatus(send(emails, emailInquiryIds), records, null);
+    Map<Id, String> statuses = send(emails, emailInquiryIds);
+    String bell = notifyInApp(records, recipients);
+    for (SObject record : records) {
+      statuses.put(
+        record.Id,
+        (statuses.get(record.Id) ?? 'Email not sent.') + ' ' + bell
+      );
+    }
+    recordStatus(statuses, records, null);
+  }
+
+  /** Bell and mobile push alert linking straight to each inquiry. */
+  private static String notifyInApp(
+    List<SObject> records,
+    List<User> recipients
+  ) {
+    List<CustomNotificationType> types = [
+      SELECT Id
+      FROM CustomNotificationType
+      WHERE DeveloperName = 'Portfolio_Inquiry'
+      LIMIT 1
+    ];
+    if (types.isEmpty()) {
+      return 'In-app alert not configured.';
+    }
+    Set<String> recipientIds = new Set<String>();
+    for (User recipient : recipients) {
+      recipientIds.add(recipient.Id);
+    }
+    try {
+      for (SObject record : records) {
+        Inquiry__c inquiry = (Inquiry__c) record;
+        Messaging.CustomNotification notification = new Messaging.CustomNotification();
+        notification.setNotificationTypeId(types[0].Id);
+        notification.setTargetId(inquiry.Id);
+        notification.setTitle(
+          'New portfolio inquiry from ' + inquiry.Full_Name__c
+        );
+        notification.setBody(
+          (inquiry.Source__c ?? 'Portfolio') +
+            (String.isBlank(inquiry.Company__c)
+              ? ''
+              : ' · ' + inquiry.Company__c) +
+            (String.isBlank(inquiry.Role_Hiring_For__c)
+              ? ''
+              : ' · ' + inquiry.Role_Hiring_For__c)
+        );
+        notification.send(recipientIds);
+      }
+      return 'In-app alert sent.';
+    } catch (Exception e) {
+      return ('In-app alert failed: ' + e.getMessage()).left(120);
+    }
   }
 
   /** Sends without failing the save, and reports the outcome per inquiry. */

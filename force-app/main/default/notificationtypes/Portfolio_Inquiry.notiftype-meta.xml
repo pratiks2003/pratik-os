@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<CustomNotificationType xmlns="http://soap.sforce.com/2006/04/metadata">
+  <customNotifTypeName>Portfolio Inquiry</customNotifTypeName>
+  <description
+  >A visitor left a message through Atlas or the portfolio contact form.</description>
+  <desktop>true</desktop>
+  <masterLabel>Portfolio Inquiry</masterLabel>
+  <mobile>true</mobile>
+</CustomNotificationType>

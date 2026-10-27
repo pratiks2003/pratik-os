@@ -126,7 +126,7 @@ private class AtlasActionsTest {
     );
     Assert.isTrue(
       [SELECT Notification_Status__c FROM Inquiry__c]
-        .Notification_Status__c.startsWith('Emailed'),
+        .Notification_Status__c.contains('Emailed'),
       'The outcome of the alert is recorded on the inquiry'
     );
   }
