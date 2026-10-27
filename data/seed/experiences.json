@@ -1,0 +1,31 @@
+{
+  "records": [
+    {
+      "attributes": {
+        "type": "Experience__c",
+        "referenceId": "ExpMarketplace"
+      },
+      "Name": "Salesforce Developer / Engineer",
+      "Company__c": "Skillminds LLP",
+      "Engagement__c": "Client: Just Eat Takeaway.com (JET)",
+      "Start_Date__c": "2024-02-01",
+      "Is_Current__c": true,
+      "Summary__c": "Builds and supports the Salesforce platform used by sales and operations teams across 7+ European markets: partner onboarding integrations, identity-verification compliance, lead-to-opportunity automation, two-way system sync, CI/CD pipelines and production support (442+ tickets resolved).",
+      "Display_Order__c": 1,
+      "Published__c": true
+    },
+    {
+      "attributes": {
+        "type": "Experience__c",
+        "referenceId": "ExpEducation"
+      },
+      "Name": "Bachelor of Engineering, Information Technology",
+      "Company__c": "MET Bhujbal Knowledge City",
+      "Engagement__c": "Education",
+      "End_Date__c": "2024-06-30",
+      "Summary__c": "Graduated in Information Technology, 2024.",
+      "Display_Order__c": 2,
+      "Published__c": true
+    }
+  ]
+}

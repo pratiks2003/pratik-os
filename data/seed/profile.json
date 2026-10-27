@@ -1,0 +1,22 @@
+{
+  "records": [
+    {
+      "attributes": {
+        "type": "Portfolio_Profile__c",
+        "referenceId": "Profile"
+      },
+      "Name": "Pratik Shinde",
+      "Headline__c": "Salesforce Developer & Engineer",
+      "Tagline__c": "I build integrations, automation and agents that replace manual work with systems that heal themselves.",
+      "Bio__c": "Pratik is a Salesforce Developer who designs, builds and supports enterprise-scale Salesforce solutions for one of Europe's largest online food-delivery marketplaces. Since February 2024 he has delivered 538+ work items across engineering, production support and infrastructure for sales and operations teams in 7+ European markets.\n\nHis strongest area is Apex: REST web services, asynchronous processing (Queueable, Batch, Schedulable), trigger frameworks and Lightning Web Components. He designs integrations with Named Credentials, OAuth 2.0, Platform Events and metadata-driven field mapping, and owns delivery end to end: solution design, build, CI/CD, go-live and hypercare.\n\nHe reaches for declarative tools first, and for robust, governor-limit-safe Apex and LWC when the problem demands it.",
+      "Availability__c": "Open to opportunities",
+      "Open_To_Roles__c": "Salesforce Developer · Salesforce Engineer · Technical Consultant",
+      "GitHub_URL__c": "https://github.com/pratiks2003",
+      "Published__c": true,
+      "Location__c": "Open to any location",
+      "LinkedIn_URL__c": "https://www.linkedin.com/in/pratik-shinde-13914927b/",
+      "Trailhead_URL__c": "https://www.salesforce.com/trailblazer/pratikshinde03",
+      "Photo_URL__c": "/portfolio/sfsites/c/resource/PortfolioPhoto"
+    }
+  ]
+}

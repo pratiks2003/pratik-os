@@ -1,0 +1,36 @@
+{
+  "records": [
+    {
+      "attributes": {
+        "type": "Certification__c",
+        "referenceId": "C1"
+      },
+      "Name": "Platform Developer II",
+      "Issuer__c": "Salesforce",
+      "Display_Order__c": 1,
+      "Published__c": true
+    },
+    {
+      "attributes": {
+        "type": "Certification__c",
+        "referenceId": "C2"
+      },
+      "Name": "Platform Developer I",
+      "Issuer__c": "Salesforce",
+      "Display_Order__c": 2,
+      "Published__c": true,
+      "Issued_Date__c": "2025-11-01"
+    },
+    {
+      "attributes": {
+        "type": "Certification__c",
+        "referenceId": "C3"
+      },
+      "Name": "Agentforce Specialist",
+      "Issuer__c": "Salesforce",
+      "Display_Order__c": 3,
+      "Published__c": true,
+      "Issued_Date__c": "2025-12-01"
+    }
+  ]
+}

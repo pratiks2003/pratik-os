@@ -51,4 +51,10 @@ sf project deploy start --source-dir force-app --target-org <alias>
 sf community publish --name "pratik.os" --target-org <alias>
 ```
 
+To rebuild the content in a fresh org (after `set-key.sh`, so the confidentiality guard allows publishing):
+
+```bash
+sf data import tree --plan data/seed/plan.json --target-org <alias>
+```
+
 CI validates every pull request (lint, LWC tests, Apex tests, deploy validation). Merges to `main` deploy and publish the site. A weekly job keeps the Developer Edition org active.

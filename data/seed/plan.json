@@ -1,0 +1,24 @@
+[
+  {
+    "sobject": "Portfolio_Profile__c",
+    "files": ["profile.json"]
+  },
+  {
+    "sobject": "Highlight__c",
+    "files": ["highlights.json"]
+  },
+  {
+    "sobject": "Certification__c",
+    "files": ["certifications.json"]
+  },
+  {
+    "sobject": "Experience__c",
+    "saveRefs": true,
+    "files": ["experiences.json"]
+  },
+  {
+    "sobject": "Project__c",
+    "resolveRefs": true,
+    "files": ["projects.json"]
+  }
+]

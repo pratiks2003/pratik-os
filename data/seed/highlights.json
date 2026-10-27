@@ -1,0 +1,48 @@
+{
+  "records": [
+    {
+      "attributes": {
+        "type": "Highlight__c",
+        "referenceId": "H1"
+      },
+      "Name": "Work items delivered",
+      "Value__c": 538,
+      "Suffix__c": "+",
+      "Display_Order__c": 1,
+      "Published__c": true
+    },
+    {
+      "attributes": {
+        "type": "Highlight__c",
+        "referenceId": "H2"
+      },
+      "Name": "Production tickets resolved",
+      "Value__c": 442,
+      "Suffix__c": "+",
+      "Display_Order__c": 2,
+      "Published__c": true
+    },
+    {
+      "attributes": {
+        "type": "Highlight__c",
+        "referenceId": "H3"
+      },
+      "Name": "European markets supported",
+      "Value__c": 7,
+      "Suffix__c": "+",
+      "Display_Order__c": 3,
+      "Published__c": true
+    },
+    {
+      "attributes": {
+        "type": "Highlight__c",
+        "referenceId": "H4"
+      },
+      "Name": "Salesforce certifications",
+      "Value__c": 3,
+      "Suffix__c": "",
+      "Display_Order__c": 4,
+      "Published__c": true
+    }
+  ]
+}

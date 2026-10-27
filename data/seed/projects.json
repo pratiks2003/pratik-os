@@ -1,0 +1,167 @@
+{
+  "records": [
+    {
+      "attributes": {
+        "type": "Project__c",
+        "referenceId": "P1"
+      },
+      "Name": "Real-Time Partner Onboarding Integration",
+      "Slug__c": "realtime-partner-onboarding",
+      "Display_Order__c": 1,
+      "Category__c": "Integration",
+      "Project_Type__c": "Professional",
+      "Tagline__c": "A versioned, self-healing integration between a self-service sign-up platform and Salesforce, rolled out to two launch markets.",
+      "Tech_Stack__c": "Apex REST, Strategy Pattern, Factory Pattern, Named Credentials, OAuth 2.0, Custom Permissions, Custom Metadata Types, Platform Events, Lightning Web Components, Lightning Data Service, Queueable Apex",
+      "Metrics__c": "9+ pluggable update strategies · 2 launch markets · new markets by configuration, not code",
+      "Business_Impact__c": "Business partners sign up through a self-service platform, and sales teams need every onboarding step reflected in Salesforce in real time. Pratik led the Salesforce side of the rollout in two launch markets: onboarding updates now arrive instantly, failures repair themselves, and new markets are switched on through configuration instead of a development project.",
+      "Technical_Deep_Dive__c": "- Inbound Apex REST service that validates the tenant, rejects stale updates by gating on payload version, and returns structured JSON responses.\n- Update-processing engine built on the Strategy and Factory patterns with 9+ specialised strategies (applicant, business details, menu and more). A new onboarding step means a new class, not edits to existing logic.\n- Retry framework with parallel retry strategies and a payload comparator that merges the original outbound payload with the latest state fetched from the target system.\n- Outbound payload generators for Lead, Account and Opportunity. Callouts authenticate through tenant-aware Named Credentials that switch between OAuth 2.0 flows using Custom Permissions.\n- Market configuration held in Custom Metadata, so launching a new country is a configuration change.\n- LWC actions for sales users (resend welcome email, create in the onboarding platform, retry) using Lightning Data Service and real-time Platform Event feedback.\n- Removed CPU timeouts under high volume by moving to bulk-safe asynchronous orchestration with Queueable retries.",
+      "Featured__c": true,
+      "STAR_Story__c": "Situation: The marketplace launched a self-service sign-up platform for business partners in two markets. Sales teams needed every onboarding step in Salesforce in real time, and failed updates were being fixed by hand.\nTask: Own the Salesforce side of the integration end to end and make it extensible to more markets.\nAction: Designed a versioned inbound REST service, a Strategy/Factory update engine, a retry framework with payload comparison, tenant-aware Named Credentials and metadata-driven market configuration, and moved high-volume processing to Queueable orchestration.\nResult: Real-time onboarding visibility for sales in both launch markets, failures that repair themselves, and new markets enabled through configuration.",
+      "Architecture_DSL__c": "Sign-up Platform -> Apex REST Service : versioned update\nApex REST Service -> Strategy Factory : resolve update type\nStrategy Factory -> Update Strategies : 9+ handlers\nUpdate Strategies -> Lead / Account / Opportunity : upsert\nUpdate Strategies -> Retry Framework : on failure\nRetry Framework -> Sign-up Platform : fetch latest + merge\nLead / Account / Opportunity -> Platform Events : status\nPlatform Events -> Sales LWC Actions : live feedback",
+      "Experience__c": "@ExpMarketplace",
+      "Published__c": true
+    },
+    {
+      "attributes": {
+        "type": "Project__c",
+        "referenceId": "P2"
+      },
+      "Name": "Business Identity Verification (KYB) Platform",
+      "Slug__c": "business-identity-verification",
+      "Display_Order__c": 2,
+      "Category__c": "Integration",
+      "Project_Type__c": "Professional",
+      "Tagline__c": "Webhook-driven compliance integration with a third-party verification provider and a central compliance service.",
+      "Tech_Stack__c": "Apex REST, Webhooks, JSON, Custom Metadata Types, Batch Apex, Schedulable Apex, Lightning Web Components, Error Handling Framework, Event Routing",
+      "Metrics__c": "Business-only event routing · metadata-driven mapping · automated compliance follow-up",
+      "Business_Impact__c": "Regulation requires every business partner to pass identity verification before trading. Pratik architected how Salesforce works with the verification provider and the company's central compliance service: results land on the right record automatically, support agents get a guided task workflow, and reminders chase stalled verifications without anyone tracking spreadsheets.",
+      "Technical_Deep_Dive__c": "- Inbound REST endpoint for verification webhooks with payload validation, JSON deserialisation and handoff to an event-handler service.\n- Metadata-driven processing engine that resolves the tenant and stores results in a canonical verification object through configurable field and status mappings.\n- Event-routing rules that ignore consumer verification events and process business (KYB) events only.\n- Provider connector, document data model and an LWC that generates secure verification links for applicants.\n- Batch and Scheduled Apex for bottleneck notifications and inactivity reminders.\n- Task-based verification workflow for support agents with status indicators, console deep links and an ingestion-failure error-handling framework.\n- Verification data synced to the analytics warehouse for compliance reporting.",
+      "Featured__c": true,
+      "STAR_Story__c": "Situation: Every business partner had to pass identity verification, but results arrived from several systems and follow-up was manual.\nTask: Architect the integration between Salesforce, the verification provider and the central compliance service.\nAction: Built a validated webhook endpoint, a metadata-driven mapping engine with KYB-only event routing, a provider connector with verification links, scheduled reminders and a task-based agent workflow with error handling.\nResult: Verification results are recorded automatically, stalled cases are chased without manual tracking, and compliance reporting runs from synced data.",
+      "Architecture_DSL__c": "Verification Provider -> Central Compliance Service : result\nCentral Compliance Service -> Apex Webhook Endpoint : webhook\nApex Webhook Endpoint -> Event Router : KYB events only\nEvent Router -> Mapping Engine : metadata-driven\nMapping Engine -> Verification Records : canonical model\nVerification Records -> Agent Task Workflow : follow-up\nScheduled Apex -> Applicants : inactivity reminders\nVerification Records -> Analytics Warehouse : reporting",
+      "Experience__c": "@ExpMarketplace",
+      "Published__c": true
+    },
+    {
+      "attributes": {
+        "type": "Project__c",
+        "referenceId": "P3"
+      },
+      "Name": "Fault-Tolerant Lead Auto-Conversion Engine",
+      "Slug__c": "lead-auto-conversion-engine",
+      "Display_Order__c": 3,
+      "Category__c": "Automation",
+      "Project_Type__c": "Professional",
+      "Tagline__c": "Replaced manual lead handling with a bulk-safe, two-phase conversion engine that retries what it can and routes what it can't.",
+      "Tech_Stack__c": "Queueable Apex, Batch Apex, Database.convertLead, Record Locking, Orchestrator Pattern, Service Layer, Lightning Web Components, Error Classification",
+      "Metrics__c": "0 SOQL/DML in loops · duplicate accounts eliminated · 2 independently retryable phases",
+      "Business_Impact__c": "Self-service sign-ups created leads that sales teams converted by hand, slowly and inconsistently. Pratik built an engine that converts eligible leads automatically, assigns the right owner and moves deals into contracting. It eliminated duplicate accounts and gives sales a panel to see status and retry in one click.",
+      "Technical_Deep_Dive__c": "- Orchestrator with dedicated eligibility, ownership-resolver and status services, fully bulk-safe on Queueable and Batch Apex with zero SOQL or DML inside loops.\n- Fixed a race condition that created duplicate Accounts during concurrent conversions using pessimistic locking (SELECT ... FOR UPDATE) and transition-based triggering.\n- Split conversion into two independently retryable phases: Phase A runs Database.convertLead, Phase B moves the deal to contracting, so a failure never causes a double conversion.\n- Error classifier that separates transient technical failures (retried automatically) from data and configuration errors (routed to a person).\n- LWC auto-convert panel for sales users that shows status and triggers manual retries through the same service layer.",
+      "Featured__c": true,
+      "STAR_Story__c": "Situation: Leads from self-service sign-ups were converted manually, and concurrent conversions were creating duplicate accounts.\nTask: Automate conversion end to end without duplicates or double conversions.\nAction: Built a bulk-safe orchestrator with eligibility and ownership services, pessimistic record locking, two retryable phases and an error classifier, plus an LWC panel for manual retries.\nResult: Eligible leads convert automatically, duplicates stopped, and failures are either retried or routed to the right person.",
+      "Architecture_DSL__c": "Lead Update -> Trigger Handler : status transition\nTrigger Handler -> Conversion Orchestrator : enqueue\nConversion Orchestrator -> Eligibility Service : check\nConversion Orchestrator -> Ownership Resolver : assign owner\nConversion Orchestrator -> Phase A : convertLead (FOR UPDATE)\nPhase A -> Phase B : move to contracting\nPhase A -> Error Classifier : on failure\nError Classifier -> Queueable Retry : transient\nError Classifier -> Human Review : data issue\nSales LWC Panel -> Conversion Orchestrator : manual retry",
+      "Experience__c": "@ExpMarketplace",
+      "Published__c": true
+    },
+    {
+      "attributes": {
+        "type": "Project__c",
+        "referenceId": "P4"
+      },
+      "Name": "Two-Way Sync with an External Management System",
+      "Slug__c": "two-way-external-sync",
+      "Display_Order__c": 4,
+      "Category__c": "Integration",
+      "Project_Type__c": "Professional",
+      "Tagline__c": "Version-aware inbound updates, metadata-driven field mapping and conflict resolution between Salesforce and an external partner management system.",
+      "Tech_Stack__c": "Apex REST, JSON Parsing, Custom Metadata Types, Lightning Web Components, Conflict Resolution",
+      "Metrics__c": "Version-based staleness checks · mapping by configuration · conflict warnings for users",
+      "Business_Impact__c": "Partner data lived in two systems that drifted apart. Pratik built the sync so updates flow both ways, old updates never overwrite new ones, and users are warned when the two systems disagree.",
+      "Technical_Deep_Dive__c": "- REST web service for inbound updates with version-based staleness checks and a custom JSON-path parser.\n- Inbound field mapping held in Custom Metadata, so new fields are mapped without code.\n- Subscription, update and conflict-resolution modules, plus an LWC that warns users about sync conflicts.",
+      "Featured__c": false,
+      "Architecture_DSL__c": "Management System -> Apex REST Service : partner update\nApex REST Service -> Staleness Check : compare version\nStaleness Check -> JSON Path Parser : accepted\nJSON Path Parser -> Field Mapping Metadata : resolve fields\nField Mapping Metadata -> Partner Records : apply\nPartner Records -> Conflict LWC : warn on mismatch",
+      "Experience__c": "@ExpMarketplace",
+      "Published__c": true
+    },
+    {
+      "attributes": {
+        "type": "Project__c",
+        "referenceId": "P5"
+      },
+      "Name": "Governor-Limit Rescue: Platform Performance",
+      "Slug__c": "platform-performance",
+      "Display_Order__c": 5,
+      "Category__c": "Performance",
+      "Project_Type__c": "Professional",
+      "Tagline__c": "Fixed production \"Too many SOQL queries: 101\" and DML-limit failures by bulkifying legacy trigger logic.",
+      "Tech_Stack__c": "Bulkification, Governor Limits, Trigger Framework, Validation Rules, Custom Permissions, Custom Settings",
+      "Metrics__c": "SOQL 101 errors eliminated · legacy triggers refactored · bypass switches for data loads",
+      "Business_Impact__c": "Critical processes were failing in production because old code hit platform limits under real data volumes. Pratik found and fixed the root causes, so bulk updates and data loads now run reliably.",
+      "Technical_Deep_Dive__c": "- Bulkified queries and refactored legacy trigger logic to remove \"Too many SOQL queries: 101\" and DML-limit exceptions.\n- Validation rules with Custom Permission bypasses for integrations and data loads.\n- Automated geolocation updates driven by Custom Settings.\n- Set up safe transactional email testing in lower environments.",
+      "Featured__c": false,
+      "STAR_Story__c": "Situation: Production processes were failing with SOQL and DML limit exceptions under real data volumes.\nTask: Find the root causes and make the logic safe at scale.\nAction: Bulkified queries, refactored legacy triggers and added Custom Permission bypasses for loads and integrations.\nResult: The limit exceptions stopped and bulk operations run reliably.",
+      "Architecture_DSL__c": "Legacy Trigger -> SOQL in Loop : before (101 errors)\nTrigger Framework -> Bulk Selector : after\nBulk Selector -> One Query per Object : bulk-safe\nCustom Permission -> Validation Rules : bypass for loads",
+      "Experience__c": "@ExpMarketplace",
+      "Published__c": true
+    },
+    {
+      "attributes": {
+        "type": "Project__c",
+        "referenceId": "P6"
+      },
+      "Name": "CI/CD Pipelines with GitHub Actions",
+      "Slug__c": "cicd-github-actions",
+      "Display_Order__c": 6,
+      "Category__c": "DevOps",
+      "Project_Type__c": "Professional",
+      "Tagline__c": "Automated, repeatable Salesforce releases across multiple environments.",
+      "Tech_Stack__c": "GitHub Actions, Salesforce CLI, CI/CD, Git, Metadata API",
+      "Metrics__c": "Automated multi-environment deploys · fewer manual deployment errors · one standard release process",
+      "Business_Impact__c": "Releases used to depend on manual steps that caused errors. Pratik set up pipelines that validate and deploy Salesforce changes automatically across environments, making releases predictable.",
+      "Technical_Deep_Dive__c": "- Designed and ran CI/CD pipelines on GitHub Actions workflows.\n- Automated metadata validation and deployment across multiple environments, standardising the release process and cutting manual deployment errors.\n- The same approach powers this portfolio: every merge to main is tested, deployed and published automatically.",
+      "Featured__c": false,
+      "Architecture_DSL__c": "Pull Request -> GitHub Actions : validate + Apex tests\nMerge to main -> GitHub Actions : deploy\nGitHub Actions -> Salesforce CLI : deploy metadata\nSalesforce CLI -> Environments : release",
+      "Experience__c": "@ExpMarketplace",
+      "Published__c": true
+    },
+    {
+      "attributes": {
+        "type": "Project__c",
+        "referenceId": "P7"
+      },
+      "Name": "Production Support & Platform Operations",
+      "Slug__c": "production-support",
+      "Display_Order__c": 7,
+      "Category__c": "Platform Operations",
+      "Project_Type__c": "Professional",
+      "Tagline__c": "Main Salesforce support contact for sales, account management and operations teams across 7+ European markets.",
+      "Tech_Stack__c": "Data Loader, Permission Sets, Profiles, Territory Realignment, User Management, CTI Integration, Root Cause Analysis",
+      "Metrics__c": "442+ tickets resolved · quarterly realignments in 4 markets · cross-system data fixes",
+      "Business_Impact__c": "Pratik is the first call when Salesforce misbehaves for sales and operations users across 7+ markets. He has resolved 442+ tickets, runs quarterly territory realignments and unblocks production issues that span several systems.",
+      "Technical_Deep_Dive__c": "- Resolved 442+ production support tickets for sales, account management and operations teams.\n- Ran quarterly territory and portfolio realignments in four markets using mass data operations in Data Loader (opportunities and owner reassignments).\n- Managed the user lifecycle and security: onboarding reps, profiles and permission sets, sandbox access and enabling the telephony (CTI) integration.\n- Diagnosed data mismatches between Salesforce, an external management system and BI dashboards, unblocking contract generation in production.",
+      "Featured__c": false,
+      "Experience__c": "@ExpMarketplace",
+      "Published__c": true
+    },
+    {
+      "attributes": {
+        "type": "Project__c",
+        "referenceId": "P8"
+      },
+      "Name": "pratik.os: This Portfolio",
+      "Slug__c": "pratik-os",
+      "Display_Order__c": 8,
+      "Category__c": "AI",
+      "Project_Type__c": "Personal",
+      "Tagline__c": "This site. Experience Cloud, LWC, Apex and an Agentforce assistant, where saving one record updates both the website and the AI.",
+      "Tech_Stack__c": "Experience Cloud LWR, Lightning Web Components, Apex, Agentforce, Agent Script, Trigger Framework, Sharing Rules, GitHub Actions",
+      "Metrics__c": "1 record → site + AI updated · guest-safe by design · CI/CD on every merge",
+      "Business_Impact__c": "A portfolio that proves the skills it describes. Recruiters can ask Atlas, the AI assistant, anything about Pratik's experience, and engineers can see exactly how the site is built.",
+      "Technical_Deep_Dive__c": "- Content lives in custom objects. Saving a published record updates the site and Atlas, and a trigger turns a comma-separated tech stack into linked skills.\n- Public access runs as a locked-down guest user: user-mode queries, guest sharing rules that expose published records only, and a post-deploy smoke test that fails the build if a draft leaks.\n- A confidentiality guard blocks publishing confidential terms, which are stored only as keyed hashes so the public repository never reveals them.\n- Atlas is an Agentforce agent defined in Agent Script and versioned in Git.\n- GitHub Actions validates every pull request and deploys every merge.",
+      "Featured__c": true,
+      "Architecture_DSL__c": "Visitor -> LWR Site : browse\nLWR Site -> PortfolioController : getSiteData (cacheable)\nPortfolioController -> Published Records : user mode + guest sharing\nVisitor -> Atlas : ask a question\nAtlas -> Apex Actions : live record lookups\nAdmin -> Project Record : save\nProject Record -> Skill Engine : link skills\nProject Record -> Compliance Guard : block confidential terms",
+      "Repo_URL__c": "https://github.com/pratiks2003/pratik-os",
+      "Published__c": true
+    }
+  ]
+}
