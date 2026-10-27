@@ -33,3 +33,8 @@ jobs:
 
       - name: Publish Experience site
         run: sf community publish --name "pratik.os" --target-org target
+
+      - name: Smoke test - guest sees published records only
+        run: node scripts/smoke/guest-visibility.mjs target "$SITE_URL"
+        env:
+          SITE_URL: https://orgfarm-44877fa971-dev-ed.develop.my.site.com/portfolio

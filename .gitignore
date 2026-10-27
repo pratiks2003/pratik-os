@@ -57,3 +57,9 @@ sfdx-auth-url*
 # Org-specific site shell (contains admin username / sender email). Kept local, not public.
 force-app/main/default/sites/
 force-app/main/default/networks/
+
+# Local secrets (compliance key)
+.secrets/
+
+# Draft portfolio content awaiting confidentiality review
+content-drafts/

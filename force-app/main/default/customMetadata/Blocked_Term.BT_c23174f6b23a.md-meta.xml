@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<CustomMetadata
+  xmlns="http://soap.sforce.com/2006/04/metadata"
+  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xmlns:xsd="http://www.w3.org/2001/XMLSchema"
+>
+  <label>BT_c23174f6b23a</label>
+  <protected>false</protected>
+  <values>
+    <field>Term_Hash__c</field>
+    <value
+      xsi:type="xsd:string"
+    >c23174f6b23a34160747d22b6731f970f64629f9bf4d776e9b00951c1b797fe4</value>
+  </values>
+  <values>
+    <field>Token_Count__c</field>
+    <value xsi:type="xsd:double">1</value>
+  </values>
+  <values>
+    <field>Is_Active__c</field>
+    <value xsi:type="xsd:boolean">true</value>
+  </values>
+</CustomMetadata>

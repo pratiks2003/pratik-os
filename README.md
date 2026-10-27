@@ -23,6 +23,26 @@ Built on **Experience Cloud (LWR)**, **Lightning Web Components**, **Apex**, and
 | M6        | Admin experience                                  | ⏳             |
 | M7        | Hardening and launch                              | ⏳             |
 
+## Architecture notes
+
+### The "one record" engine
+
+`Project__c.Tech_Stack__c` is plain comma-separated text. `ProjectTriggerHandler` hands changed projects to `SkillLinkService`, which creates missing `Skill__c` records (categorised by `SkillCategorizer`) and keeps `Project_Skill__c` links in sync, with a fixed number of queries and DML statements however many records are saved.
+
+### Guest access
+
+The public site runs as the Experience Cloud guest user with the `Portfolio_Guest` permission set (read-only). `PortfolioSelector` queries in **user mode**, so object permissions, field-level security and guest sharing rules (only `Published__c = true`) are enforced by the platform. After every deploy, `scripts/smoke/guest-visibility.mjs` calls the live site anonymously and fails the build if any unpublished record leaks.
+
+### Confidentiality guard
+
+Some portfolio content describes professional work that must not reveal confidential names. `ComplianceGuard` blocks publishing any record whose text contains a blocked term. Terms are stored in `Blocked_Term__mdt` only as HMAC-SHA256 hashes keyed by a secret held in the protected `Compliance_Settings__c` setting, so this public repository never reveals what is blocked.
+
+```bash
+scripts/compliance/set-key.sh <org>                              # one-time: create and store the key
+node scripts/compliance/add-blocked-term.mjs "Term" "Other Term" # writes hashed metadata records
+sf project deploy start -d force-app/main/default/customMetadata --target-org <org>
+```
+
 ## Development
 
 ```bash

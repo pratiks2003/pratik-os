@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata"><fullName
+  >Slug__c</fullName><label>Slug</label><inlineHelpText
+  >URL-safe id. Generated from the title when blank.</inlineHelpText><length
+  >80</length><required>false</required><type>Text</type><externalId
+  >true</externalId><unique>true</unique><caseSensitive
+  >false</caseSensitive></CustomField>

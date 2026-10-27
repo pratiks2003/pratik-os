@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<CustomObject xmlns="http://soap.sforce.com/2006/04/metadata">
+<customSettingsType>Hierarchy</customSettingsType>
+<description
+  >Protected secret used to hash blocked terms. The value lives only in the org and a git-ignored local file.</description>
+<enableFeeds>false</enableFeeds>
+<label>Compliance Settings</label>
+<visibility>Protected</visibility>
+</CustomObject>

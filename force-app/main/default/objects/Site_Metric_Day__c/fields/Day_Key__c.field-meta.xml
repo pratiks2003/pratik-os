@@ -1,0 +1,5 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata"><fullName
+  >Day_Key__c</fullName><label>Day Key</label><length>10</length><required
+  >false</required><type>Text</type><externalId>true</externalId><unique
+  >true</unique><caseSensitive>false</caseSensitive></CustomField>
