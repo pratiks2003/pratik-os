@@ -1,0 +1,7 @@
+.value {
+  white-space: pre-wrap;
+}
+
+.notes {
+  --slds-c-textarea-sizing-min-height: 12rem;
+}

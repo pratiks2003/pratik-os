@@ -60,6 +60,35 @@ public with sharing class ComplianceGuard {
     }
   }
 
+  /**
+   * Blocked terms found in any text, without blocking anything: used by the
+   * admin confidentiality check and to vet AI drafts before they are applied.
+   */
+  public static List<String> findBlockedTerms(List<String> texts) {
+    TermMatcher matcher = loadMatcher();
+    if (matcher == null) {
+      throw new ComplianceException(
+        'The compliance key is not configured. Run scripts/compliance/set-key.sh.'
+      );
+    }
+    Set<String> found = new Set<String>();
+    if (!matcher.isEmpty()) {
+      for (String text : texts) {
+        String hit = matcher.findMatch(text);
+        while (hit != null) {
+          found.add(hit);
+          // Look for further terms after removing the one just found.
+          text = TextFingerprint.normalize(text).replace(hit, ' ');
+          hit = matcher.findMatch(text);
+        }
+      }
+    }
+    return new List<String>(found);
+  }
+
+  public class ComplianceException extends Exception {
+  }
+
   private static List<String> textFieldsOf(Schema.SObjectType objectType) {
     List<String> names = new List<String>();
     for (

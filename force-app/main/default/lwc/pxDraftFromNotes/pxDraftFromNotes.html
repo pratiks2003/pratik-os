@@ -1,0 +1,80 @@
+<template>
+  <lightning-quick-action-panel header="✨ Draft from notes">
+    <template lwc:if={loading}
+      ><lightning-spinner alternative-text="Working"></lightning-spinner
+    ></template>
+    <template lwc:if={error}>
+      <div
+        class="slds-notify slds-notify_alert slds-alert_error slds-m-bottom_small"
+        role="alert"
+      >
+        {error}
+      </div>
+    </template>
+
+    <template lwc:if={hasDraft}>
+      <template lwc:if={hasBlockedTerms}>
+        <div
+          class="slds-notify slds-notify_alert slds-alert_warning slds-m-bottom_small"
+          role="alert"
+        >
+          Blocked confidential terms found in the draft: {blockedTerms}. Edit
+          them out before publishing.
+        </div>
+      </template>
+      <dl class="slds-list_stacked">
+        <template for:each={fields} for:item="f">
+          <div key={f.key} class="slds-m-bottom_small">
+            <dt class="slds-text-title_caps slds-m-bottom_xx-small">
+              {f.label}
+            </dt>
+            <dd class="value">{f.value}</dd>
+          </div>
+        </template>
+      </dl>
+    </template>
+    <template lwc:else>
+      <p class="slds-m-bottom_small slds-text-color_weak">
+        Paste rough notes, a Jira summary or bullet points. The draft uses only
+        facts from your notes and replaces internal names with generic
+        descriptions. Nothing is saved until you click Apply.
+      </p>
+      <lightning-textarea
+        label="Your notes"
+        value={notes}
+        onchange={handleNotes}
+        max-length="20000"
+        class="notes"
+      ></lightning-textarea>
+    </template>
+
+    <div slot="footer">
+      <template lwc:if={hasDraft}>
+        <lightning-button
+          label="Back"
+          onclick={handleBack}
+          class="slds-m-right_x-small"
+        ></lightning-button>
+        <lightning-button
+          variant="brand"
+          label="Apply to record"
+          onclick={handleApply}
+          disabled={loading}
+        ></lightning-button>
+      </template>
+      <template lwc:else>
+        <lightning-button
+          label="Cancel"
+          onclick={handleCancel}
+          class="slds-m-right_x-small"
+        ></lightning-button>
+        <lightning-button
+          variant="brand"
+          label="Generate draft"
+          onclick={handleGenerate}
+          disabled={generateDisabled}
+        ></lightning-button>
+      </template>
+    </div>
+  </lightning-quick-action-panel>
+</template>

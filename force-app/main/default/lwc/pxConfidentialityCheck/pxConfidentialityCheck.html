@@ -1,0 +1,67 @@
+<template>
+  <lightning-quick-action-panel header="🛡 Confidentiality check">
+    <template lwc:if={loading}
+      ><lightning-spinner alternative-text="Reviewing"></lightning-spinner
+    ></template>
+    <template lwc:if={error}>
+      <div
+        class="slds-notify slds-notify_alert slds-alert_error slds-m-bottom_small"
+        role="alert"
+      >
+        {error}
+      </div>
+    </template>
+
+    <template lwc:if={result}>
+      <template lwc:if={isClear}>
+        <div
+          class="slds-notify slds-notify_alert slds-alert_offline slds-theme_success slds-m-bottom_small"
+          role="status"
+        >
+          ✔ Nothing confidential found. No blocked terms and no AI findings.
+        </div>
+      </template>
+      <template lwc:if={hasBlockedTerms}>
+        <div
+          class="slds-notify slds-notify_alert slds-alert_error slds-m-bottom_small"
+          role="alert"
+        >
+          Blocked terms: {blockedTerms}. Publishing is blocked until these are
+          removed.
+        </div>
+      </template>
+      <template lwc:if={hasFindings}>
+        <h3 class="slds-text-heading_small slds-m-bottom_x-small">
+          AI review: worth a second look
+        </h3>
+        <ul class="slds-has-dividers_around-space">
+          <template for:each={findings} for:item="f">
+            <li key={f.key} class="slds-item">
+              <p><strong>"{f.quote}"</strong></p>
+              <p class="slds-text-color_weak">{f.reason}</p>
+              <p>Suggestion: {f.suggestion}</p>
+            </li>
+          </template>
+        </ul>
+      </template>
+      <p class="slds-text-body_small slds-text-color_weak slds-m-top_small">
+        Blocked terms are checked against hashed values only. The AI review is
+        advisory: you decide what to change.
+      </p>
+    </template>
+
+    <div slot="footer">
+      <lightning-button
+        label="Run again"
+        onclick={handleRerun}
+        class="slds-m-right_x-small"
+        disabled={loading}
+      ></lightning-button>
+      <lightning-button
+        variant="brand"
+        label="Close"
+        onclick={handleClose}
+      ></lightning-button>
+    </div>
+  </lightning-quick-action-panel>
+</template>

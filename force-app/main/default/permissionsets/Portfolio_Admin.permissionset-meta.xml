@@ -1,6 +1,14 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <PermissionSet xmlns="http://soap.sforce.com/2006/04/metadata">
-<classAccesses><apexClass>AtlasChatController</apexClass><enabled
+  <applicationVisibilities>
+    <application>Portfolio_Admin</application>
+    <visible>true</visible>
+  </applicationVisibilities>
+<classAccesses>
+    <apexClass>ProjectAssistantController</apexClass>
+    <enabled>true</enabled>
+  </classAccesses>
+  <classAccesses><apexClass>AtlasChatController</apexClass><enabled
     >true</enabled></classAccesses><classAccesses><apexClass
     >PortfolioController</apexClass><enabled>true</enabled></classAccesses>
 <description
@@ -257,4 +265,40 @@
     <object>Org_Snapshot__c</object>
     <viewAllRecords>true</viewAllRecords>
   </objectPermissions>
+  <tabSettings>
+    <tab>Certification__c</tab>
+    <visibility>Visible</visibility>
+  </tabSettings>
+  <tabSettings>
+    <tab>Experience__c</tab>
+    <visibility>Visible</visibility>
+  </tabSettings>
+  <tabSettings>
+    <tab>Highlight__c</tab>
+    <visibility>Visible</visibility>
+  </tabSettings>
+  <tabSettings>
+    <tab>Inquiry__c</tab>
+    <visibility>Visible</visibility>
+  </tabSettings>
+  <tabSettings>
+    <tab>Org_Snapshot__c</tab>
+    <visibility>Visible</visibility>
+  </tabSettings>
+  <tabSettings>
+    <tab>Portfolio_Profile__c</tab>
+    <visibility>Visible</visibility>
+  </tabSettings>
+  <tabSettings>
+    <tab>Project__c</tab>
+    <visibility>Visible</visibility>
+  </tabSettings>
+  <tabSettings>
+    <tab>Site_Metric_Day__c</tab>
+    <visibility>Visible</visibility>
+  </tabSettings>
+  <tabSettings>
+    <tab>Skill__c</tab>
+    <visibility>Visible</visibility>
+  </tabSettings>
 </PermissionSet>

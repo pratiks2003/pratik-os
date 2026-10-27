@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<GenAiPromptTemplate xmlns="http://soap.sforce.com/2006/04/metadata">
+  <activeVersionIdentifier>pxDraftFromNotesV1=_1</activeVersionIdentifier>
+  <description
+  >Turns Pratik's rough notes about a project into portfolio case-study fields, without confidential detail.</description>
+  <developerName>Portfolio_Draft_From_Notes</developerName>
+  <masterLabel>Portfolio: Draft from Notes</masterLabel>
+  <templateVersions>
+    <content
+    >You write case studies for the public portfolio of Pratik Shinde, a Salesforce Developer. Turn the notes below into portfolio fields.
+
+Project title: {!$Input:Title}
+
+Current content (may be empty):
+{!$Input:Existing_Content}
+
+Pratik's notes:
+{!$Input:Notes}
+
+Rules:
+- Write about Pratik in the third person ("Pratik built..."), in clear, plain English. No hype words such as "revolutionary" or "cutting-edge".
+- Use ONLY facts and numbers present in the notes or current content. Never invent metrics, dates, team sizes or outcomes.
+- This text will be public. Pratik's professional work was done for a client, so NEVER include internal system or product names, vendor or partner names, endpoints or URL paths, object, field or metadata API names (anything ending in __c or __mdt), colleagues' names, or internal figures such as revenue. Replace them with generic descriptions, for example "an external management system", "a third-party verification provider" or "metadata-driven configuration".
+- Salesforce product and technology names (Apex, LWC, Platform Events, OAuth 2.0, Named Credentials) are fine.
+
+Respond with ONLY a JSON object, no markdown fences, using exactly these keys:
+{
+  "tagline": "one sentence, at most 160 characters",
+  "category": "one of Integration, Automation, Architecture, Performance, DevOps, Platform Operations, AI",
+  "businessImpact": "2 to 4 sentences for recruiters: the problem and the outcome",
+  "technicalDeepDive": "3 to 7 lines for engineers, each starting with '- '",
+  "starStory": "four lines separated by newlines, starting with 'Situation: ', 'Task: ', 'Action: ' and 'Result: '",
+  "techStack": "comma-separated technologies",
+  "metrics": "up to three short stats separated by ' · ', each a phrase with its meaning and unit such as 'manual fixes cut from 40 to 2 a week'; an empty string if the notes contain no numbers"
+}</content>
+    <inputs>
+      <apiName>Title</apiName>
+      <definition>primitive://String</definition>
+      <masterLabel>Title</masterLabel>
+      <referenceName>Input:Title</referenceName>
+      <required>true</required>
+    </inputs>
+    <inputs>
+      <apiName>Notes</apiName>
+      <definition>primitive://String</definition>
+      <masterLabel>Notes</masterLabel>
+      <referenceName>Input:Notes</referenceName>
+      <required>true</required>
+    </inputs>
+    <inputs>
+      <apiName>Existing_Content</apiName>
+      <definition>primitive://String</definition>
+      <masterLabel>Existing Content</masterLabel>
+      <referenceName>Input:Existing_Content</referenceName>
+      <required>false</required>
+    </inputs>
+    <primaryModel>sfdc_ai__DefaultOpenAIGPT4OmniMini</primaryModel>
+    <status>Published</status>
+    <versionIdentifier>pxDraftFromNotesV1=_1</versionIdentifier>
+  </templateVersions>
+  <type>einstein_gpt__flex</type>
+  <visibility>Global</visibility>
+</GenAiPromptTemplate>

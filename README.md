@@ -77,6 +77,17 @@ Four demos run real Apex for anonymous visitors (`DemoController`, capped per da
 - **Contact form** submissions become `Inquiry__c` records. Bots are filtered with a honeypot field, a minimum fill time and a daily cap, so no CAPTCHA keys are needed. Every alert's outcome is stamped on `Notification_Status__c`.
 - **Sharing:** Open Graph and Twitter tags, a 1200×630 share card rendered from HTML, and JSON-LD `Person` markup.
 
+### Admin experience
+
+The **Portfolio Admin** Lightning app has tabs for every portfolio object, inquiries and analytics, plus a **Portfolio Overview** dashboard (inquiries by source and status, 30-day site usage). It runs as the viewing user, so no username is stored in this repo.
+
+Two AI actions sit on every Project record, built on prompt templates in [`genAiPromptTemplates/`](force-app/main/default/genAiPromptTemplates):
+
+- **Draft from Notes** turns rough notes into the tagline, recruiter view, engineer view, STAR story, tech stack and metrics. The template only uses facts from the notes and swaps internal names for generic descriptions; the draft is vetted against the hashed blocked terms before you apply it.
+- **Confidentiality Check** combines the blocked-term check with an AI review that flags internal system names, vendors, API names, people and internal figures, each with a suggested rewording.
+
+New inquiries alert every `Portfolio_Admin` user by email and by a custom notification (bell and mobile push).
+
 ## Development
 
 ```bash

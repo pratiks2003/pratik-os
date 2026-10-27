@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<GenAiPromptTemplate xmlns="http://soap.sforce.com/2006/04/metadata">
+  <activeVersionIdentifier
+  >pxConfidentialityReviewV1=_1</activeVersionIdentifier>
+  <description
+  >Reviews portfolio text for details that could be confidential to a client before it is published.</description>
+  <developerName>Portfolio_Confidentiality_Review</developerName>
+  <masterLabel>Portfolio: Confidentiality Review</masterLabel>
+  <templateVersions>
+    <content
+    >You review text before it is published on Pratik Shinde's public portfolio. Pratik's professional projects were delivered for a client, so the text must not reveal anything confidential to that client.
+
+Text to review:
+{!$Input:Content}
+
+Flag phrases that look like:
+- internal system, product, team or project code names
+- vendor, partner or supplier names connected to the client's systems
+- endpoints, URL paths, or object, field or metadata API names (for example anything ending in __c or __mdt)
+- names of colleagues or clients' customers
+- internal figures such as revenue, volumes or costs that are unlikely to be public
+
+Do NOT flag: Salesforce products and technologies (Apex, LWC, Flow, Platform Events, OAuth 2.0, Named Credentials), general industry terms, the employer or consultancy name, or Pratik's own achievement numbers such as tickets resolved.
+
+Respond with ONLY a JSON object, no markdown fences:
+{
+  "verdict": "clear" or "review",
+  "findings": [
+    { "quote": "exact phrase from the text", "reason": "why it may be confidential", "suggestion": "a generic rewording" }
+  ]
+}
+Use an empty findings list and "clear" when nothing needs attention.</content>
+    <inputs>
+      <apiName>Content</apiName>
+      <definition>primitive://String</definition>
+      <masterLabel>Content</masterLabel>
+      <referenceName>Input:Content</referenceName>
+      <required>true</required>
+    </inputs>
+    <primaryModel>sfdc_ai__DefaultOpenAIGPT4OmniMini</primaryModel>
+    <status>Published</status>
+    <versionIdentifier>pxConfidentialityReviewV1=_1</versionIdentifier>
+  </templateVersions>
+  <type>einstein_gpt__flex</type>
+  <visibility>Global</visibility>
+</GenAiPromptTemplate>
