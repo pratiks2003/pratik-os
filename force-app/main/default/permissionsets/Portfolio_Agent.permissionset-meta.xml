@@ -23,7 +23,12 @@
 
 <description
   >Read-only access for the public portfolio site guest user. Record visibility is limited to published records by sharing rules.</description>
-<fieldPermissions><editable>false</editable><field
+<fieldPermissions>
+    <editable>true</editable>
+    <field>Inquiry__c.Notification_Status__c</field>
+    <readable>true</readable>
+  </fieldPermissions>
+  <fieldPermissions><editable>false</editable><field
     >Portfolio_Profile__c.Headline__c</field><readable
     >true</readable></fieldPermissions><fieldPermissions><editable
     >false</editable><field>Portfolio_Profile__c.Tagline__c</field><readable
@@ -221,4 +226,12 @@
     <object>Inquiry__c</object>
     <viewAllRecords>false</viewAllRecords>
   </objectPermissions>
+  <userPermissions>
+    <enabled>true</enabled>
+    <name>EditTask</name>
+  </userPermissions>
+  <userPermissions>
+    <enabled>true</enabled>
+    <name>EmailSingle</name>
+  </userPermissions>
 </PermissionSet>

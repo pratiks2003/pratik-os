@@ -124,6 +124,11 @@ private class AtlasActionsTest {
       InquiryNotifier.sentCount > 0,
       'Portfolio admins are emailed'
     );
+    Assert.isTrue(
+      [SELECT Notification_Status__c FROM Inquiry__c]
+        .Notification_Status__c.startsWith('Emailed'),
+      'The outcome of the alert is recorded on the inquiry'
+    );
   }
 
   @IsTest
