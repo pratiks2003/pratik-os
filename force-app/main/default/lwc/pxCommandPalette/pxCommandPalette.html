@@ -1,0 +1,60 @@
+<template>
+  <template lwc:if={isOpen}>
+    <div class="backdrop" onclick={handleBackdrop}>
+      <div
+        class="palette"
+        role="dialog"
+        aria-modal="true"
+        aria-label="Command palette"
+      >
+        <div class="prompt-row">
+          <span class="prompt" aria-hidden="true">❯</span>
+          <input
+            class="input"
+            type="text"
+            placeholder="Type a command or ask Atlas anything…"
+            aria-label="Command"
+            aria-controls="palette-results"
+            autocomplete="off"
+            spellcheck="false"
+            value={query}
+            oninput={handleInput}
+            onkeydown={handleKeydown}
+          />
+          <span class="kbd">esc</span>
+        </div>
+        <template lwc:if={hasOutput}>
+          <div class="output" role="status">
+            <template for:each={output} for:item="line">
+              <p key={line.key}>{line.text}</p>
+            </template>
+          </div>
+        </template>
+        <ul
+          id="palette-results"
+          class="results"
+          role="listbox"
+          aria-label="Commands"
+        >
+          <template for:each={results} for:item="r">
+            <li key={r.key} role="option" aria-selected={r.selected}>
+              <button
+                type="button"
+                class={r.cls}
+                data-index={r.index}
+                onclick={handleResult}
+                tabindex="-1"
+              >
+                <span class="label">{r.label}</span>
+                <span class="hint">{r.hint}</span>
+              </button>
+            </li>
+          </template>
+        </ul>
+        <p class="footer">
+          ↑↓ to move · ↵ to run · try <span class="mono">sudo hire pratik</span>
+        </p>
+      </div>
+    </div>
+  </template>
+</template>

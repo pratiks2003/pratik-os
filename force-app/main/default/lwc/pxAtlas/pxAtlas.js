@@ -179,6 +179,14 @@ export default class PxAtlas extends LightningElement {
     return this.history.length > 0;
   }
 
+  /** Sends a question programmatically, e.g. from the command palette. */
+  @api
+  ask(question) {
+    this.jdMode = false;
+    this.draft = String(question || "");
+    this.handleSend();
+  }
+
   handleInput(event) {
     this.draft = event.target.value;
   }

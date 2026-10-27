@@ -89,3 +89,9 @@
     margin-left: auto;
   }
 }
+
+.palette {
+  padding: 0.3125rem 0.5rem;
+  font-size: 0.75rem;
+  color: var(--px-text-2);
+}

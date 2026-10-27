@@ -70,6 +70,13 @@ Four demos run real Apex for anonymous visitors (`DemoController`, capped per da
 | Self-Healing Sync (`NebulaPaySync`)                           | Error classification, exponential backoff, park or route to a person | Simulated gateway, no callouts                                                                         |
 | Last Seat (`SeatBookingService`)                              | Lost-update race vs `SELECT … FOR UPDATE`                            | Two truly concurrent requests on a throwaway record, deleted when the run ends                         |
 
+### Behind the scenes, the palette and the contact form
+
+- **⌘K / Ctrl+K** opens a command palette: `ask <question>`, `cat <project>.md`, `run demo <name>`, `cd ~/<section>`, `mode engineer`, `whoami`, `help`, and a few easter eggs.
+- **CI writes its own stats into the org.** After every deploy, [`scripts/ci/publish-snapshot.mjs`](scripts/ci/publish-snapshot.mjs) counts Apex classes, triggers, LWCs and objects, runs the local tests with coverage, and saves an `Org_Snapshot__c` row with the commit and run links. The site's behind-the-scenes section serves those numbers live, alongside 30-day usage totals.
+- **Contact form** submissions become `Inquiry__c` records. Bots are filtered with a honeypot field, a minimum fill time and a daily cap, so no CAPTCHA keys are needed. Every alert's outcome is stamped on `Notification_Status__c`.
+- **Sharing:** Open Graph and Twitter tags, a 1200×630 share card rendered from HTML, and JSON-LD `Person` markup.
+
 ## Development
 
 ```bash

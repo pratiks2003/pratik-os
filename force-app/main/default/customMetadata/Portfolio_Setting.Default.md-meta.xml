@@ -19,4 +19,8 @@
     <field>Daily_Demo_Cap__c</field>
     <value xsi:type="xsd:double">1000</value>
   </values>
+  <values>
+    <field>Daily_Form_Cap__c</field>
+    <value xsi:type="xsd:double">30</value>
+  </values>
 </CustomMetadata>

@@ -1,0 +1,80 @@
+@import "c/pxTokens";
+
+.form {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  padding: 1.5rem;
+  max-width: 44rem;
+  margin-bottom: 2rem;
+}
+
+.row {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(min(220px, 100%), 1fr));
+  gap: 1rem;
+}
+
+.field {
+  display: flex;
+  flex-direction: column;
+  gap: 0.375rem;
+  font-size: 0.8125rem;
+  color: var(--px-text-2);
+}
+
+.req {
+  color: var(--px-accent);
+}
+
+input,
+textarea {
+  font: inherit;
+  font-size: 0.9375rem;
+  color: var(--px-text);
+  background: var(--px-bg);
+  border: 1px solid var(--px-border);
+  border-radius: 8px;
+  padding: 0.625rem 0.75rem;
+  resize: vertical;
+}
+
+input:focus,
+textarea:focus {
+  outline: none;
+  border-color: var(--px-accent);
+  box-shadow: 0 0 0 3px var(--px-accent-soft);
+}
+
+.trap {
+  position: absolute;
+  left: -10000px;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+}
+
+.notice {
+  margin: 0;
+  padding: 0.75rem 1rem;
+  border-radius: 8px;
+  font-size: 0.875rem;
+  max-width: 44rem;
+}
+
+.ok {
+  color: #7ee787;
+  background: rgba(63, 191, 63, 0.08);
+  border: 1px solid rgba(63, 191, 63, 0.4);
+  margin-bottom: 2rem;
+}
+
+.warn {
+  color: #ffd27a;
+  background: rgba(250, 178, 25, 0.08);
+  border: 1px solid rgba(250, 178, 25, 0.4);
+}
+
+.px-run {
+  align-self: flex-start;
+}

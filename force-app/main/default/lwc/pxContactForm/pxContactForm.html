@@ -1,0 +1,65 @@
+<template>
+  <template lwc:if={sent}>
+    <div class={statusClass} role="status">✔ {message}</div>
+  </template>
+  <template lwc:else>
+    <form class="form px-card" onsubmit={handleSubmit} novalidate>
+      <div class="row">
+        <label class="field">
+          <span>Name <span class="req">*</span></span>
+          <input
+            name="fullName"
+            type="text"
+            autocomplete="name"
+            maxlength="120"
+            required
+          />
+        </label>
+        <label class="field">
+          <span>Email <span class="req">*</span></span>
+          <input
+            name="email"
+            type="email"
+            autocomplete="email"
+            maxlength="80"
+            required
+          />
+        </label>
+      </div>
+      <div class="row">
+        <label class="field">
+          <span>Company</span>
+          <input
+            name="company"
+            type="text"
+            autocomplete="organization"
+            maxlength="120"
+          />
+        </label>
+        <label class="field">
+          <span>Role you're hiring for</span>
+          <input name="role" type="text" maxlength="120" />
+        </label>
+      </div>
+      <label class="field">
+        <span>Message <span class="req">*</span></span>
+        <textarea name="message" rows="4" maxlength="5000" required></textarea>
+      </label>
+      <div class="trap" aria-hidden="true">
+        <label
+          >Website<input
+            name="website"
+            type="text"
+            tabindex="-1"
+            autocomplete="off"
+        /></label>
+      </div>
+      <template lwc:if={hasMessage}
+        ><p class={statusClass} role="alert">{message}</p></template
+      >
+      <button type="submit" class="px-run" disabled={sending}>
+        send to Pratik →
+      </button>
+    </form>
+  </template>
+</template>

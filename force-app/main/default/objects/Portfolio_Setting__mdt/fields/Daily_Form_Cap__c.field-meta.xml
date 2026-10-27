@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+  <fullName>Daily_Form_Cap__c</fullName>
+  <fieldManageability>DeveloperControlled</fieldManageability>
+  <inlineHelpText
+  >Maximum contact form submissions accepted per day.</inlineHelpText>
+  <label>Daily Form Cap</label>
+  <precision>4</precision>
+  <scale>0</scale>
+  <required>false</required>
+  <type>Number</type>
+</CustomField>

@@ -7,6 +7,66 @@
   >Full access to manage portfolio content, inquiries and analytics.</description>
 <fieldPermissions>
     <editable>true</editable>
+    <field>Org_Snapshot__c.Apex_Classes__c</field>
+    <readable>true</readable>
+  </fieldPermissions>
+  <fieldPermissions>
+    <editable>true</editable>
+    <field>Org_Snapshot__c.Apex_Tests_Passed__c</field>
+    <readable>true</readable>
+  </fieldPermissions>
+  <fieldPermissions>
+    <editable>true</editable>
+    <field>Org_Snapshot__c.Apex_Tests__c</field>
+    <readable>true</readable>
+  </fieldPermissions>
+  <fieldPermissions>
+    <editable>true</editable>
+    <field>Org_Snapshot__c.Apex_Triggers__c</field>
+    <readable>true</readable>
+  </fieldPermissions>
+  <fieldPermissions>
+    <editable>true</editable>
+    <field>Org_Snapshot__c.Code_Coverage__c</field>
+    <readable>true</readable>
+  </fieldPermissions>
+  <fieldPermissions>
+    <editable>true</editable>
+    <field>Org_Snapshot__c.Commit_Message__c</field>
+    <readable>true</readable>
+  </fieldPermissions>
+  <fieldPermissions>
+    <editable>true</editable>
+    <field>Org_Snapshot__c.Commit_SHA__c</field>
+    <readable>true</readable>
+  </fieldPermissions>
+  <fieldPermissions>
+    <editable>true</editable>
+    <field>Org_Snapshot__c.Commit_URL__c</field>
+    <readable>true</readable>
+  </fieldPermissions>
+  <fieldPermissions>
+    <editable>true</editable>
+    <field>Org_Snapshot__c.Custom_Objects__c</field>
+    <readable>true</readable>
+  </fieldPermissions>
+  <fieldPermissions>
+    <editable>true</editable>
+    <field>Org_Snapshot__c.Deployed_At__c</field>
+    <readable>true</readable>
+  </fieldPermissions>
+  <fieldPermissions>
+    <editable>true</editable>
+    <field>Org_Snapshot__c.Lightning_Components__c</field>
+    <readable>true</readable>
+  </fieldPermissions>
+  <fieldPermissions>
+    <editable>true</editable>
+    <field>Org_Snapshot__c.Run_URL__c</field>
+    <readable>true</readable>
+  </fieldPermissions>
+  <fieldPermissions>
+    <editable>true</editable>
     <field>Inquiry__c.Notification_Status__c</field>
     <readable>true</readable>
   </fieldPermissions>
@@ -188,4 +248,13 @@
     >true</allowEdit><allowRead>true</allowRead><modifyAllRecords
     >true</modifyAllRecords><object>Site_Metric_Day__c</object><viewAllRecords
     >true</viewAllRecords></objectPermissions>
+  <objectPermissions>
+    <allowCreate>true</allowCreate>
+    <allowDelete>true</allowDelete>
+    <allowEdit>true</allowEdit>
+    <allowRead>true</allowRead>
+    <modifyAllRecords>true</modifyAllRecords>
+    <object>Org_Snapshot__c</object>
+    <viewAllRecords>true</viewAllRecords>
+  </objectPermissions>
 </PermissionSet>

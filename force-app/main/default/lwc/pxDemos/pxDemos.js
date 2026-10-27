@@ -1,4 +1,4 @@
-import { LightningElement } from "lwc";
+import { LightningElement, api } from "lwc";
 
 const DEMOS = [
   {
@@ -67,6 +67,16 @@ export default class PxDemos extends LightningElement {
       name: s,
       pressed: String(this.showSource && this.sourceClass === s)
     }));
+  }
+
+  /** Opens a demo tab from outside, e.g. the command palette. */
+  @api
+  openDemo(key) {
+    if (DEMOS.some((d) => d.key === key)) {
+      this.active = key;
+      this.showSource = false;
+      this.sourceClass = this.demo.sources[0];
+    }
   }
 
   handleTab(event) {

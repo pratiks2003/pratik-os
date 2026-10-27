@@ -1,9 +1,12 @@
 /**
- * Emails every Portfolio_Admin user when a new inquiry arrives. Sends to an internal user via
+ * Emails every Portfolio_Admin user when a new inquiry arrives. Runs without
+ * sharing because inquiries are created by the site guest user and the Atlas
+ * agent user, who cannot see admin assignments; it only reads those and
+ * stamps Notification_Status__c. A failed alert never blocks the inquiry. Sends to an internal user via
  * setTargetObjectId, which does not count against the org's daily limit
  * for external emails.
  */
-public with sharing class InquiryNotifier extends TriggerHandler {
+public without sharing class InquiryNotifier extends TriggerHandler {
   @TestVisible
   private static Integer sentCount = 0;
 
@@ -140,6 +143,6 @@ public with sharing class InquiryNotifier extends TriggerHandler {
         );
       }
     }
-    update updates;
+    Database.update(updates, false);
   }
 }

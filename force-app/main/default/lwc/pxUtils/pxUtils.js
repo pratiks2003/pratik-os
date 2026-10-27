@@ -135,6 +135,7 @@ export function parseDiagram(dsl) {
 
 const DIAGRAM = {
   charWidth: 7.4,
+  labelCharWidth: 6.4,
   nodePadding: 28,
   nodeHeight: 40,
   columnGap: 96,
@@ -191,6 +192,13 @@ export function layoutDiagram(graph) {
     (columns[column] = columns[column] || []).push(n);
   });
 
+  // Leave room for the longest edge label between columns.
+  const longestLabel = Math.max(0, ...edges.map((e) => (e.label || "").length));
+  const columnGap = Math.max(
+    DIAGRAM.columnGap,
+    Math.ceil(longestLabel * DIAGRAM.labelCharWidth + 32)
+  );
+
   const placed = new Map();
   let x = DIAGRAM.margin;
   let maxRows = 0;
@@ -210,7 +218,7 @@ export function layoutDiagram(graph) {
       });
     });
     maxRows = Math.max(maxRows, column.length);
-    x += width + DIAGRAM.columnGap;
+    x += width + columnGap;
   });
 
   const contentHeight =
@@ -256,7 +264,7 @@ export function layoutDiagram(graph) {
   });
 
   return {
-    width: x - DIAGRAM.columnGap + DIAGRAM.margin,
+    width: x - columnGap + DIAGRAM.margin,
     height: contentHeight + (backEdges.size ? 32 : 0),
     nodes: [...placed.values()].map((n) => ({
       ...n,

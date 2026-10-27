@@ -55,6 +55,19 @@ describe("parseDiagram and layoutDiagram", () => {
     expect(layout.height).toBeGreaterThan(0);
   });
 
+  it("widens columns to fit long edge labels", () => {
+    const short = layoutDiagram(parseDiagram("A -> B : x"));
+    const long = layoutDiagram(
+      parseDiagram("A -> B : a much longer label here")
+    );
+    const gap = (layout) =>
+      layout.nodes[1].x - (layout.nodes[0].x + layout.nodes[0].w);
+    expect(gap(long)).toBeGreaterThan(gap(short));
+    expect(gap(long)).toBeGreaterThanOrEqual(
+      "a much longer label here".length * 6.4
+    );
+  });
+
   it("returns an empty layout for no diagram", () => {
     expect(layoutDiagram(parseDiagram("")).nodes).toEqual([]);
   });

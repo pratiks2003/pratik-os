@@ -6,6 +6,7 @@ const LINKS = [
   { section: "demos", label: "~/demos" },
   { section: "skills", label: "~/skills" },
   { section: "certifications", label: "~/certs" },
+  { section: "behind-the-scenes", label: "~/build" },
   { section: "contact", label: "~/contact" }
 ];
 
@@ -28,6 +29,10 @@ export default class PxNav extends LightningElement {
 
   handleHome() {
     this.navigate("about");
+  }
+
+  handlePalette() {
+    this.dispatchEvent(new CustomEvent("openpalette"));
   }
 
   handleMode(event) {

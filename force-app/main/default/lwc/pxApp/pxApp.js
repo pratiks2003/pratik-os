@@ -1,8 +1,10 @@
 import { LightningElement, wire } from "lwc";
 import getSiteData from "@salesforce/apex/PortfolioController.getSiteData";
+import recordVisit from "@salesforce/apex/SiteController.recordVisit";
 import { prefersReducedMotion } from "c/pxUtils";
 
 const MODE_KEY = "pxMode";
+const VISIT_KEY = "pxVisited";
 
 /**
  * Root of the portfolio. Loads every published record in one cacheable call
@@ -17,8 +19,48 @@ export default class PxApp extends LightningElement {
   connectedCallback() {
     try {
       this.mode = window.sessionStorage.getItem(MODE_KEY) || "recruiter";
+      if (!window.sessionStorage.getItem(VISIT_KEY)) {
+        window.sessionStorage.setItem(VISIT_KEY, "1");
+        recordVisit().catch(() => {});
+      }
     } catch {
       this.mode = "recruiter";
+    }
+    this.keyListener = (event) => {
+      if ((event.metaKey || event.ctrlKey) && event.key.toLowerCase() === "k") {
+        event.preventDefault();
+        this.openPalette();
+      }
+    };
+    window.addEventListener("keydown", this.keyListener);
+  }
+
+  disconnectedCallback() {
+    window.removeEventListener("keydown", this.keyListener);
+  }
+
+  openPalette() {
+    this.template.querySelector("c-px-command-palette")?.open();
+  }
+
+  handleOpenPalette() {
+    this.openPalette();
+  }
+
+  handleCommand(event) {
+    const { action, value } = event.detail;
+    if (action === "navigate") {
+      this.scrollTo(value);
+    } else if (action === "openProject") {
+      this.template.querySelector("c-px-projects")?.openProject(value);
+    } else if (action === "demo") {
+      this.scrollTo("demos");
+      this.template.querySelector("c-px-demos")?.openDemo(value);
+    } else if (action === "ask") {
+      this.scrollTo("about");
+      this.template.querySelector("c-px-hero")?.askAtlas(value);
+    } else if (action === "mode") {
+      this.handleModeChange({ detail: { mode: value } });
     }
   }
 
@@ -60,6 +102,10 @@ export default class PxApp extends LightningElement {
     return this.data?.certifications ?? [];
   }
 
+  get skillCount() {
+    return this.skills.length;
+  }
+
   get generatedAt() {
     return this.data?.generatedAt;
   }
@@ -80,9 +126,11 @@ export default class PxApp extends LightningElement {
   }
 
   handleNavigate(event) {
-    const target = this.template.querySelector(
-      `[data-section="${event.detail.section}"]`
-    );
+    this.scrollTo(event.detail.section);
+  }
+
+  scrollTo(section) {
+    const target = this.template.querySelector(`[data-section="${section}"]`);
     if (target) {
       target.scrollIntoView({
         behavior: prefersReducedMotion() ? "auto" : "smooth",

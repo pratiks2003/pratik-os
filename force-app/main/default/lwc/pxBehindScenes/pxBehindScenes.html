@@ -1,0 +1,116 @@
+<template>
+  <div class="px-section">
+    <p class="px-section-title">$ cat ~/behind-the-scenes.md</p>
+    <h2 class="px-heading">Behind the scenes</h2>
+    <p class="intro">
+      This site is a Salesforce org. The numbers below are written into the org
+      by the CI pipeline after every deploy, then served to you live.
+    </p>
+
+    <template lwc:if={latest}>
+      <div class="grid">
+        <section class="px-card panel">
+          <h3 class="label">latest deploy</h3>
+          <p class="commit">
+            <a
+              class="px-link sha"
+              href={latest.commitUrl}
+              target="_blank"
+              rel="noopener noreferrer"
+              >{latest.sha}</a
+            >
+            <span class="message">{latest.message}</span>
+          </p>
+          <p class="meta">
+            {latest.when}
+            <template lwc:if={latest.runUrl}>
+              ·
+              <a
+                class="px-link"
+                href={latest.runUrl}
+                target="_blank"
+                rel="noopener noreferrer"
+                >pipeline run ↗</a
+              ></template
+            >
+          </p>
+          <div class="checks">
+            <span class={testsClass}>✔ {latest.tests} Apex tests passing</span>
+          </div>
+          <div class="meter">
+            <div class="meter-label">
+              <span>Org-wide code coverage</span
+              ><span class="mono">{latest.coverage}</span>
+            </div>
+            <div class="track">
+              <div class="fill" style={latest.coverageStyle}></div>
+            </div>
+          </div>
+          <dl class="tiles">
+            <template for:each={latest.tiles} for:item="t">
+              <div key={t.key} class="tile">
+                <dt>{t.label}</dt>
+                <dd>{t.value}</dd>
+              </div>
+            </template>
+          </dl>
+        </section>
+
+        <section class="px-card panel">
+          <h3 class="label">last 30 days</h3>
+          <dl class="tiles">
+            <template for:each={usage} for:item="u">
+              <div key={u.key} class="tile">
+                <dt>{u.label}</dt>
+                <dd>{u.value}</dd>
+              </div>
+            </template>
+          </dl>
+          <h3 class="label spaced">deploy history</h3>
+          <ol class="history">
+            <template for:each={history} for:item="h">
+              <li key={h.key}>
+                <a
+                  class="px-link mono"
+                  href={h.url}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  >{h.sha}</a
+                >
+                <span class="history-message">{h.message}</span>
+                <span class="history-meta">{h.coverage} · {h.when}</span>
+              </li>
+            </template>
+          </ol>
+        </section>
+      </div>
+    </template>
+
+    <section class="px-card panel wide">
+      <h3 class="label">architecture</h3>
+      <c-px-arch-diagram
+        dsl={architecture}
+        label="How pratik.os is built"
+      ></c-px-arch-diagram>
+    </section>
+
+    <section class="wide">
+      <h3 class="label">security model</h3>
+      <ul class="security">
+        <template for:each={security} for:item="s">
+          <li key={s.key} class="px-card item">
+            <span class="item-title">{s.title}</span>
+            <span class="item-text">{s.text}</span>
+          </li>
+        </template>
+      </ul>
+      <a
+        class="px-btn source"
+        href={repoUrl}
+        target="_blank"
+        rel="noopener noreferrer"
+        >read the source on GitHub ↗</a
+      >
+    </section>
+  </div>
+</template>

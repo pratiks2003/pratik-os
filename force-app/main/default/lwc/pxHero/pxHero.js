@@ -31,6 +31,25 @@ export default class PxHero extends LightningElement {
     }
   }
 
+  pendingQuestion;
+
+  /** Asks Atlas a question from outside, e.g. the command palette. */
+  @api
+  askAtlas(question) {
+    this.timers.forEach((t) => clearTimeout(t));
+    this.visibleLines = this.allLines.length;
+    this.pendingQuestion = question;
+  }
+
+  renderedCallback() {
+    const atlas = this.template.querySelector("c-px-atlas");
+    if (this.pendingQuestion && atlas) {
+      const question = this.pendingQuestion;
+      this.pendingQuestion = undefined;
+      atlas.ask(question);
+    }
+  }
+
   disconnectedCallback() {
     this.timers.forEach((t) => clearTimeout(t));
   }

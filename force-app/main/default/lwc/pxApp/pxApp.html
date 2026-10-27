@@ -4,7 +4,14 @@
       mode={mode}
       onmodechange={handleModeChange}
       onnavigate={handleNavigate}
+      onopenpalette={handleOpenPalette}
     ></c-px-nav>
+    <c-px-command-palette
+      projects={projects}
+      profile={profile}
+      skill-count={skillCount}
+      oncommand={handleCommand}
+    ></c-px-command-palette>
 
     <template lwc:if={isLoading}>
       <div class="status" role="status">
@@ -62,6 +69,13 @@
             certifications={certifications}
             profile={profile}
           ></c-px-certs>
+        </section>
+        <section
+          data-section="behind-the-scenes"
+          class="anchor"
+          aria-label="Behind the scenes"
+        >
+          <c-px-behind-scenes></c-px-behind-scenes>
         </section>
       </main>
       <c-px-footer
