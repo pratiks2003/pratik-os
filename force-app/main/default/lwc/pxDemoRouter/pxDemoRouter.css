@@ -1,0 +1,72 @@
+@import "c/pxTokens";
+
+.label {
+  font-family: var(--px-mono);
+  font-size: 0.75rem;
+  color: var(--px-muted);
+}
+
+.queue {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.375rem;
+  list-style: none;
+  padding: 0;
+  margin: 0 0 1rem;
+  min-height: 1.75rem;
+}
+
+.table-wrap {
+  overflow-x: auto;
+  margin-top: 1.25rem;
+}
+
+.trace {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 0.8125rem;
+}
+
+.trace th {
+  text-align: left;
+  font-family: var(--px-mono);
+  font-size: 0.6875rem;
+  font-weight: 500;
+  text-transform: uppercase;
+  color: var(--px-muted);
+  padding: 0.5rem 0.75rem 0.5rem 0;
+  border-bottom: 1px solid var(--px-border);
+}
+
+.trace td {
+  padding: 0.625rem 0.75rem 0.625rem 0;
+  border-bottom: 1px solid var(--px-border);
+  color: var(--px-text-2);
+  vertical-align: top;
+}
+
+.row {
+  animation: appear 0.3s ease-out backwards;
+}
+
+.mono {
+  font-family: var(--px-mono);
+  color: var(--px-text);
+  white-space: nowrap;
+}
+
+.handler {
+  color: #ffa657;
+}
+
+.message {
+  display: block;
+  margin-top: 0.375rem;
+}
+
+@keyframes appear {
+  from {
+    opacity: 0;
+    transform: translateX(-6px);
+  }
+}

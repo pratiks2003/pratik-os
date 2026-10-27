@@ -1,0 +1,63 @@
+<template>
+  <div class="px-section">
+    <p class="px-section-title">$ ./run --live-demos</p>
+    <h2 class="px-heading">Don't take my word for it. Run it.</h2>
+    <p class="intro">
+      Each demo executes real Apex in this Salesforce org when you press run.
+      The businesses are fictional and the code was written from scratch for
+      this site. It shows the patterns, not anyone's production code.
+    </p>
+
+    <div class="tabs" role="tablist" aria-label="Live demos">
+      <template for:each={tabs} for:item="t">
+        <button
+          key={t.key}
+          type="button"
+          role="tab"
+          class="tab"
+          data-key={t.key}
+          aria-selected={t.selected}
+          tabindex={t.tabIndex}
+          onclick={handleTab}
+        >
+          {t.label}
+        </button>
+      </template>
+    </div>
+
+    <div class="px-card panel" role="tabpanel" aria-label={demo.title}>
+      <div class="panel-head">
+        <h3 class="demo-title">{demo.title}</h3>
+        <div class="sources">
+          <template for:each={sourceButtons} for:item="s">
+            <button
+              key={s.key}
+              type="button"
+              class="px-btn"
+              data-name={s.name}
+              aria-pressed={s.pressed}
+              onclick={handleSource}
+            >
+              &lt;/&gt; {s.name}.cls
+            </button>
+          </template>
+        </div>
+      </div>
+      <template lwc:if={isLimits}
+        ><c-px-demo-limits></c-px-demo-limits
+      ></template>
+      <template lwc:elseif={isRouter}
+        ><c-px-demo-router></c-px-demo-router
+      ></template>
+      <template lwc:elseif={isRetry}
+        ><c-px-demo-retry></c-px-demo-retry
+      ></template>
+      <template lwc:elseif={isSeat}><c-px-demo-seat></c-px-demo-seat></template>
+      <template lwc:if={showSource}>
+        <div class="source">
+          <c-px-code-viewer class-name={sourceClass}></c-px-code-viewer>
+        </div>
+      </template>
+    </div>
+  </div>
+</template>

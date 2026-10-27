@@ -1,0 +1,56 @@
+<template>
+  <p class="px-note">
+    Starlight Tickets has one seat left. Ava and Ben press "buy" at the same
+    moment: the browser sends two requests at once, and each Apex transaction
+    reads the seat, holds it while payment authorises, then saves. Run it
+    without locking, then with&nbsp;<code>SELECT … FOR UPDATE</code>.
+  </p>
+  <div class="px-demo-controls">
+    <div role="group" aria-label="Record locking" class="toggle">
+      <button
+        type="button"
+        class="px-btn"
+        data-locking="off"
+        aria-pressed={lockOffPressed}
+        onclick={handleLocking}
+      >
+        no locking
+      </button>
+      <button
+        type="button"
+        class="px-btn"
+        data-locking="on"
+        aria-pressed={lockOnPressed}
+        onclick={handleLocking}
+      >
+        FOR UPDATE
+      </button>
+    </div>
+    <button
+      type="button"
+      class="px-run"
+      onclick={handleRace}
+      disabled={running}
+    >
+      ▶ start the race
+    </button>
+  </div>
+  <template lwc:if={error}
+    ><p class="px-error" role="alert">{error}</p></template
+  >
+  <div class="lanes" aria-live="polite">
+    <template for:each={buyers} for:item="b">
+      <div key={b.key} class="px-card lane">
+        <span class="buyer">{b.name}</span>
+        <span class={b.cls}>{b.status}</span>
+        <span class="time">{b.time}</span>
+      </div>
+    </template>
+  </div>
+  <template lwc:if={verdict}>
+    <div class={verdict.cls}>
+      <p class="verdict-title">{verdict.title}</p>
+      <p class="verdict-text">{verdict.text}</p>
+    </div>
+  </template>
+</template>

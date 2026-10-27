@@ -1,0 +1,81 @@
+@import "c/pxTokens";
+
+code {
+  font-family: var(--px-mono);
+  color: var(--px-accent);
+}
+
+.toggle {
+  display: flex;
+  gap: 0.25rem;
+}
+
+.lanes {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(min(260px, 100%), 1fr));
+  gap: 1rem;
+  margin-bottom: 1rem;
+}
+
+.lane {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  padding: 1rem 1.25rem;
+}
+
+.buyer {
+  font-weight: 600;
+  color: var(--px-text);
+  min-width: 2.5rem;
+}
+
+.lane-status {
+  flex: 1;
+  font-family: var(--px-mono);
+  font-size: 0.8125rem;
+  color: var(--px-text-2);
+}
+
+.time {
+  font-family: var(--px-mono);
+  font-size: 0.75rem;
+  color: var(--px-muted);
+}
+
+.verdict {
+  border-radius: 10px;
+  padding: 1rem 1.25rem;
+  border: 1px solid;
+  animation: rise 0.25s ease-out;
+}
+
+.verdict.bad {
+  border-color: rgba(208, 59, 59, 0.55);
+  background: rgba(208, 59, 59, 0.08);
+}
+
+.verdict.good {
+  border-color: rgba(63, 191, 63, 0.5);
+  background: rgba(63, 191, 63, 0.07);
+}
+
+.verdict-title {
+  margin: 0 0 0.375rem;
+  font-weight: 600;
+  color: var(--px-text);
+}
+
+.verdict-text {
+  margin: 0;
+  color: var(--px-text-2);
+  font-size: 0.875rem;
+  line-height: 1.6;
+}
+
+@keyframes rise {
+  from {
+    opacity: 0;
+    transform: translateY(6px);
+  }
+}

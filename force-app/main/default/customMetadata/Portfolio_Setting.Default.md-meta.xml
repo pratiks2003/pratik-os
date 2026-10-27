@@ -15,4 +15,8 @@
 <values><field>Agent_Enabled__c</field><value
       xsi:type="xsd:boolean"
     >true</value></values>
+  <values>
+    <field>Daily_Demo_Cap__c</field>
+    <value xsi:type="xsd:double">1000</value>
+  </values>
 </CustomMetadata>

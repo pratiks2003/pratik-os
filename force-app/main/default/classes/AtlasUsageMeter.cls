@@ -9,6 +9,11 @@ public without sharing class AtlasUsageMeter {
     return row == null ? 0 : Integer.valueOf(row.Agent_Messages__c ?? 0);
   }
 
+  public static Integer demoRunsToday() {
+    Site_Metric_Day__c row = today();
+    return row == null ? 0 : Integer.valueOf(row.Demo_Runs__c ?? 0);
+  }
+
   /** Records one agent message; a new conversation also counts as a session. */
   public static void recordMessage(Boolean newSession) {
     increment(

@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<CustomObject xmlns="http://soap.sforce.com/2006/04/metadata">
+<deploymentStatus>Deployed</deploymentStatus>
+<description
+  >Orbit Supply customer for the Governor Limits Arena demo. Rows only ever exist inside a rolled-back savepoint.</description>
+<enableActivities>false</enableActivities><enableBulkApi
+  >true</enableBulkApi><enableFeeds>false</enableFeeds>
+<enableHistory>false</enableHistory><enableReports
+  >false</enableReports><enableSearch>false</enableSearch>
+<enableSharing>true</enableSharing><enableStreamingApi>true</enableStreamingApi>
+<externalSharingModel>Private</externalSharingModel>
+<label>Demo Customer</label><nameField><label>Customer Name</label><type
+    >Text</type></nameField><pluralLabel>Demo Customers</pluralLabel>
+<sharingModel>ReadWrite</sharingModel><visibility>Public</visibility>
+</CustomObject>

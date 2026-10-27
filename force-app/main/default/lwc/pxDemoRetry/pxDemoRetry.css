@@ -1,0 +1,51 @@
+@import "c/pxTokens";
+
+.attempts {
+  list-style: none;
+  padding: 0 0 0 1rem;
+  margin: 0 0 1rem;
+  border-left: 2px solid var(--px-border);
+}
+
+.attempt {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.625rem;
+  padding: 0.625rem 0;
+  animation: appear 0.3s ease-out backwards;
+}
+
+.n,
+.code {
+  font-family: var(--px-mono);
+  font-size: 0.8125rem;
+  color: var(--px-text);
+}
+
+.code {
+  color: #ffa657;
+}
+
+.action {
+  flex-basis: 100%;
+  font-size: 0.8125rem;
+  color: var(--px-text-2);
+}
+
+.summary {
+  padding: 1rem 1.25rem;
+}
+
+.summary p {
+  margin: 0.625rem 0 0;
+  color: var(--px-text-2);
+  font-size: 0.875rem;
+}
+
+@keyframes appear {
+  from {
+    opacity: 0;
+    transform: translateY(4px);
+  }
+}

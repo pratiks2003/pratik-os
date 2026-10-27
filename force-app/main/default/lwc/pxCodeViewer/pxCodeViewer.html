@@ -1,0 +1,19 @@
+<template>
+  <figure class="viewer">
+    <figcaption class="bar">
+      <span class="file">{fileName}</span>
+      <span class="live">live from the org</span>
+    </figcaption>
+    <template lwc:if={loading}><p class="state">loading source…</p></template>
+    <template lwc:elseif={error}
+      ><p class="state">Source is unavailable right now.</p></template
+    >
+    <template lwc:else>
+      <pre
+        class="code"
+        tabindex="0"
+      ><template for:each={lines} for:item="line"><span key={line.key} class="line"><span class="num" aria-hidden="true">{line.number}</span><template for:each={line.tokens} for:item="t"><span key={t.key} class={t.cls}>{t.text}</span></template>
+</span></template></pre>
+    </template>
+  </figure>
+</template>

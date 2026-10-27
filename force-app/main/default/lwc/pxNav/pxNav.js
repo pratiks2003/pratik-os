@@ -3,6 +3,7 @@ import { LightningElement, api } from "lwc";
 const LINKS = [
   { section: "experience", label: "~/experience" },
   { section: "projects", label: "~/projects" },
+  { section: "demos", label: "~/demos" },
   { section: "skills", label: "~/skills" },
   { section: "certifications", label: "~/certs" },
   { section: "contact", label: "~/contact" }

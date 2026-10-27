@@ -1,0 +1,84 @@
+.viewer {
+  margin: 0;
+  border: 1px solid var(--px-border);
+  border-radius: 10px;
+  overflow: hidden;
+  background: #080b10;
+}
+
+.bar {
+  display: flex;
+  justify-content: space-between;
+  padding: 0.5rem 0.875rem;
+  background: var(--px-surface-2);
+  border-bottom: 1px solid var(--px-border);
+  font-family: var(--px-mono);
+  font-size: 0.75rem;
+}
+
+.file {
+  color: var(--px-text);
+}
+
+.live {
+  color: var(--px-prompt);
+}
+
+.state {
+  padding: 1rem;
+  margin: 0;
+  color: var(--px-muted);
+  font-family: var(--px-mono);
+  font-size: 0.8125rem;
+}
+
+.code {
+  margin: 0;
+  max-height: 30rem;
+  overflow: auto;
+  padding: 0.75rem 0;
+  font-family: var(--px-mono);
+  font-size: 0.78125rem;
+  line-height: 1.55;
+  color: #c9d1d9;
+}
+
+.line {
+  display: block;
+  padding-right: 1rem;
+  white-space: pre;
+}
+
+.num {
+  display: inline-block;
+  width: 3.25rem;
+  padding-right: 1rem;
+  text-align: right;
+  color: #484f58;
+  user-select: none;
+}
+
+.t-comment {
+  color: #8b949e;
+  font-style: italic;
+}
+
+.t-string {
+  color: #a5d6ff;
+}
+
+.t-keyword {
+  color: #ff7b72;
+}
+
+.t-type {
+  color: #ffa657;
+}
+
+.t-number {
+  color: #79c0ff;
+}
+
+.t-annotation {
+  color: #d2a8ff;
+}

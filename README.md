@@ -59,6 +59,17 @@ sf agent publish authoring-bundle --api-name Atlas --target-org <alias>
 sf agent activate --api-name Atlas --version <n> --target-org <alias>
 ```
 
+### Live demos
+
+Four demos run real Apex for anonymous visitors (`DemoController`, capped per day by `Daily_Demo_Cap__c`). Every business in them is fictional and the code was written from scratch for this site; each demo has a "view source" panel that loads the class body straight from the org.
+
+| Demo                                                          | Pattern                                                              | How it stays safe                                                                                      |
+| ------------------------------------------------------------- | -------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------ |
+| Governor Limits Arena (`LimitsArena`)                         | Bulkified vs per-record SOQL/DML, measured with `Limits`             | Seeds and rolls back inside a savepoint; the naive run stops short of the uncatchable `LimitException` |
+| Event Router (`ShipmentEventRouter`, `ShipmentEventHandlers`) | Strategy + Factory, version gating against stale events              | In memory, no DML                                                                                      |
+| Self-Healing Sync (`NebulaPaySync`)                           | Error classification, exponential backoff, park or route to a person | Simulated gateway, no callouts                                                                         |
+| Last Seat (`SeatBookingService`)                              | Lost-update race vs `SELECT … FOR UPDATE`                            | Two truly concurrent requests on a throwaway record, deleted when the run ends                         |
+
 ## Development
 
 ```bash

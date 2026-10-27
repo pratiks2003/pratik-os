@@ -1,0 +1,99 @@
+<template>
+  <p class="px-note">
+    Orbit Supply's warehouse sends shipment events, sometimes late, duplicated
+    or out of order. A factory picks the strategy class registered for each
+    event type; a version gate drops anything older than what was already
+    applied. Build a sequence and run it through the real Apex router.
+  </p>
+  <div class="px-demo-controls">
+    <template for:each={palette} for:item="p">
+      <button
+        key={p.key}
+        type="button"
+        class="px-btn"
+        data-type={p.type}
+        onclick={handleAdd}
+      >
+        + {p.type}
+      </button>
+    </template>
+    <button type="button" class="px-btn" onclick={handleReplay}>
+      ↺ replay last
+    </button>
+  </div>
+  <div class="px-demo-controls">
+    <span class="label">presets</span>
+    <button
+      type="button"
+      class="px-btn"
+      data-preset="happy"
+      onclick={handlePreset}
+    >
+      happy path
+    </button>
+    <button
+      type="button"
+      class="px-btn"
+      data-preset="outOfOrder"
+      onclick={handlePreset}
+    >
+      out of order
+    </button>
+    <button
+      type="button"
+      class="px-btn"
+      data-preset="replay"
+      onclick={handlePreset}
+    >
+      replayed events
+    </button>
+    <button type="button" class="px-btn" onclick={handleClear}>clear</button>
+  </div>
+
+  <ol class="queue" aria-label="Event queue">
+    <template for:each={queue} for:item="q">
+      <li key={q.key} class="px-tag">{q.label}</li>
+    </template>
+  </ol>
+  <button
+    type="button"
+    class="px-run"
+    onclick={handleRun}
+    disabled={runDisabled}
+  >
+    ▶ route events
+  </button>
+
+  <template lwc:if={error}
+    ><p class="px-error" role="alert">{error}</p></template
+  >
+  <template lwc:if={trace}>
+    <div class="table-wrap">
+      <table class="trace">
+        <thead>
+          <tr>
+            <th scope="col">#</th>
+            <th scope="col">event</th>
+            <th scope="col">factory → strategy</th>
+            <th scope="col">outcome</th>
+            <th scope="col">shipment</th>
+          </tr>
+        </thead>
+        <tbody>
+          <template for:each={steps} for:item="s">
+            <tr key={s.key} class="row" style={s.rowStyle}>
+              <td class="mono">{s.index}</td>
+              <td class="mono">{s.type} v{s.version}</td>
+              <td class="mono handler">{s.handler}</td>
+              <td>
+                <span class={s.badgeClass}>{s.badge}</span
+                ><span class="message">{s.message}</span>
+              </td>
+              <td class="mono">{s.statusAfter} · v{s.versionAfter}</td>
+            </tr>
+          </template>
+        </tbody>
+      </table>
+    </div>
+  </template>
+</template>

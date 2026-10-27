@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<CustomObject xmlns="http://soap.sforce.com/2006/04/metadata">
+<deploymentStatus>Deployed</deploymentStatus>
+<description>A booking made during a Last Seat demo run.</description>
+<enableActivities>false</enableActivities><enableBulkApi
+  >true</enableBulkApi><enableFeeds>false</enableFeeds>
+<enableHistory>false</enableHistory><enableReports
+  >false</enableReports><enableSearch>false</enableSearch>
+<enableSharing>true</enableSharing><enableStreamingApi>true</enableStreamingApi>
+<externalSharingModel>ControlledByParent</externalSharingModel>
+<label>Demo Booking</label><nameField><displayFormat
+    >BK-{00000}</displayFormat><label>Booking Number</label><type
+    >AutoNumber</type></nameField><pluralLabel>Demo Bookings</pluralLabel>
+<sharingModel>ControlledByParent</sharingModel><visibility>Public</visibility>
+</CustomObject>

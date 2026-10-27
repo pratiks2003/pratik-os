@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+<fullName>Daily_Demo_Cap__c</fullName><fieldManageability
+  >DeveloperControlled</fieldManageability>
+<inlineHelpText
+  >Maximum live demo runs per day across all visitors.</inlineHelpText>
+<label>Daily Demo Cap</label><precision>6</precision><scale>0</scale><required
+  >false</required><type>Number</type>
+</CustomField>

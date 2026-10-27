@@ -1,0 +1,57 @@
+<template>
+  <p class="px-note">
+    Orbit Supply applies a tier discount to its orders. Both versions below run
+    for real in this org on records seeded inside a savepoint, measured with
+    the&nbsp;<code>Limits</code> class, then rolled back.
+  </p>
+  <div class="px-demo-controls">
+    <div role="group" aria-label="Number of orders" class="sizes">
+      <template for:each={sizes} for:item="s">
+        <button
+          key={s.key}
+          type="button"
+          class="px-btn"
+          data-value={s.value}
+          aria-pressed={s.pressed}
+          onclick={handleSize}
+        >
+          {s.value}
+        </button>
+      </template>
+    </div>
+    <button type="button" class="px-run" onclick={handleRun} disabled={running}>
+      {runLabel}
+    </button>
+  </div>
+  <template lwc:if={error}
+    ><p class="px-error" role="alert">{error}</p></template
+  >
+  <div class="cards" aria-live="polite">
+    <template for:each={cards} for:item="card">
+      <section key={card.key} class="px-card card">
+        <header class="head">
+          <div>
+            <h4 class="title">{card.title}</h4>
+            <p class="subtitle">{card.subtitle}</p>
+          </div>
+          <span class={card.badgeClass}>{card.badge}</span>
+        </header>
+        <template for:each={card.meters} for:item="m">
+          <div key={m.key} class="meter">
+            <div class="meter-label">
+              <span>{m.label}</span
+              ><span class="meter-value"
+                >{m.value} <span class="needed">{m.needed}</span></span
+              >
+            </div>
+            <div class="track">
+              <div class={m.fillClass} style={m.fillStyle}></div>
+            </div>
+          </div>
+        </template>
+        <p class="facts">{card.processed} · {card.cpu}</p>
+        <template lwc:if={card.note}><p class="halt">{card.note}</p></template>
+      </section>
+    </template>
+  </div>
+</template>

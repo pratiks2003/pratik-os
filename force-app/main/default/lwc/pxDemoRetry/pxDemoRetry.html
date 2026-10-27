@@ -1,0 +1,44 @@
+<template>
+  <p class="px-note">
+    Orbit Supply charges cards through Nebula Pay, a simulated gateway. Pick a
+    failure mode: an error classifier decides whether each failure is worth
+    retrying, a retry policy backs off exponentially, and anything a retry can't
+    fix goes to a person instead of looping forever.
+  </p>
+  <div class="px-demo-controls" role="group" aria-label="Failure mode">
+    <template for:each={scenarios} for:item="s">
+      <button
+        key={s.key}
+        type="button"
+        class="px-btn"
+        data-key={s.key}
+        aria-pressed={s.pressed}
+        onclick={handleScenario}
+      >
+        {s.label}
+      </button>
+    </template>
+    <button type="button" class="px-run" onclick={handleRun} disabled={running}>
+      ▶ sync payment
+    </button>
+  </div>
+  <template lwc:if={error}
+    ><p class="px-error" role="alert">{error}</p></template
+  >
+  <template lwc:if={result}>
+    <ol class="attempts" aria-live="polite">
+      <template for:each={attempts} for:item="a">
+        <li key={a.key} class="attempt" style={a.style}>
+          <span class="n">attempt {a.attempt}</span>
+          <span class="code">HTTP {a.statusCode}</span>
+          <span class={a.badgeClass}>{a.classification}</span>
+          <span class="action">{a.action}</span>
+        </li>
+      </template>
+    </ol>
+    <div class="px-card summary">
+      <span class={outcome.cls}>{outcome.label}</span>
+      <p>{result.summary}</p>
+    </div>
+  </template>
+</template>
