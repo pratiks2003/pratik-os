@@ -1,0 +1,106 @@
+{
+  "type": "sfdc_cms__view",
+  "title": "Login",
+  "contentBody": {
+    "component": {
+      "children": [
+        {
+          "children": [
+            {
+              "attributes": {
+                "backgroundImageConfig": "",
+                "backgroundImageOverlay": "rgba(0,0,0,0)",
+                "componentSpacerSize": "",
+                "layoutDirectionDesktop": "row",
+                "layoutDirectionMobile": "column",
+                "layoutDirectionTablet": "column",
+                "maxContentWidth": "",
+                "sectionColumnGutterWidth": "",
+                "sectionConfig": "{\"UUID\":\"79a884e7-16f8-4a16-9c60-4a08474533d6\",\"columns\":[{\"UUID\":\"7a29f747-3cfc-4639-8305-1f9d50cd1a76\",\"columnName\":\"Column 1\",\"columnKey\":\"col1\",\"columnWidth\":\"12\",\"seedComponents\":null}]}",
+                "sectionMinHeight": "",
+                "sectionVerticalAlign": "flex-start"
+              },
+              "children": [
+                {
+                  "children": [
+                    {
+                      "attributes": {
+                        "alignment": "left",
+                        "imageInfo": "",
+                        "imageInfoMobile": "",
+                        "logoWidth": 250
+                      },
+                      "definition": "dxp_content_layout:siteLogo",
+                      "id": "074c703c-dfe3-4379-be0d-1e5efe711e2e",
+                      "type": "component"
+                    },
+                    {
+                      "attributes": {
+                        "forgotPasswordLabel": "Forgot your password?",
+                        "forgotPasswordUrl": "/ForgotPassword",
+                        "loginButtonLabel": "Log In",
+                        "passwordLabel": "Password",
+                        "selfRegisterLabel": "Not a member?",
+                        "selfRegisterUrl": "/SelfRegister",
+                        "startUrl": "",
+                        "usernameLabel": "Username"
+                      },
+                      "definition": "community_login:loginForm",
+                      "id": "147c9f5f-e2a0-4f8c-9060-81eb1087ea18",
+                      "type": "component"
+                    },
+                    {
+                      "attributes": {
+                        "employeeLoginLinkLabel": "Are you an employee? Log in"
+                      },
+                      "definition": "community_login:employeeLoginLink",
+                      "id": "455f116f-6a99-478a-a3aa-b18fa1e1e1dc",
+                      "type": "component"
+                    }
+                  ],
+                  "id": "7a29f747-3cfc-4639-8305-1f9d50cd1a76",
+                  "name": "col1",
+                  "title": "Column 1",
+                  "type": "region"
+                }
+              ],
+              "definition": "community_layout:section",
+              "id": "79a884e7-16f8-4a16-9c60-4a08474533d6",
+              "type": "component"
+            }
+          ],
+          "id": "437eb8b6-2193-41e3-bf67-4d02f410ad58",
+          "name": "content",
+          "title": "Content",
+          "type": "region"
+        },
+        {
+          "children": [
+            {
+              "attributes": {
+                "customHeadTags": "",
+                "description": "",
+                "pageTitle": "Login",
+                "recordId": "{!recordId}"
+              },
+              "definition": "community_builder:seoAssistant",
+              "id": "52c530e6-1c96-4407-8d0b-f51863b15f1a",
+              "type": "component"
+            }
+          ],
+          "id": "c27af901-e166-44be-9df3-8e5a81de7279",
+          "name": "sfdcHiddenRegion",
+          "title": "sfdcHiddenRegion",
+          "type": "region"
+        }
+      ],
+      "definition": "community_layout:sldsFlexibleLayout",
+      "id": "0c477c6b-3eed-4761-adbb-a8e2a9c62dae",
+      "type": "component"
+    },
+    "dataProviders": [],
+    "themeLayoutType": "Inner",
+    "viewType": "login-main"
+  },
+  "urlName": "login"
+}

@@ -1,0 +1,22 @@
+# Developer Edition orgs are deactivated after long inactivity.
+# A weekly authenticated API call keeps the portfolio org alive.
+name: Keep org alive
+
+on:
+  schedule:
+    - cron: "0 6 * * 1"
+  workflow_dispatch:
+
+jobs:
+  ping:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Install Salesforce CLI
+        run: npm install --global @salesforce/cli
+
+      - name: Authenticate and ping org
+        run: |
+          echo "${{ secrets.SFDX_AUTH_URL }}" > ./auth-url.txt
+          sf org login sfdx-url --sfdx-url-file ./auth-url.txt --alias target
+          rm ./auth-url.txt
+          sf data query --query "SELECT Id FROM Organization" --target-org target

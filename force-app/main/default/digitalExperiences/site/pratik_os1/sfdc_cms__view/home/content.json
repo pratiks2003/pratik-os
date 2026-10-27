@@ -1,0 +1,78 @@
+{
+  "type": "sfdc_cms__view",
+  "title": "Home",
+  "contentBody": {
+    "component": {
+      "children": [
+        {
+          "children": [
+            {
+              "attributes": {
+                "backgroundImageConfig": "",
+                "backgroundImageOverlay": "rgba(0,0,0,0)",
+                "componentSpacerSize": "",
+                "layoutDirectionDesktop": "row",
+                "layoutDirectionMobile": "column",
+                "layoutDirectionTablet": "column",
+                "maxContentWidth": "",
+                "sectionColumnGutterWidth": "",
+                "sectionConfig": "{\"UUID\":\"b3bab6eb-479e-46a7-9a4c-178c5aadedba\",\"columns\":[{\"UUID\":\"ba975ac5-e4bc-4573-97b4-78647b4b39d4\",\"columnName\":\"Column 1\",\"columnKey\":\"col1\",\"columnWidth\":\"12\",\"seedComponents\":null}]}",
+                "sectionMinHeight": "",
+                "sectionVerticalAlign": "flex-start"
+              },
+              "children": [
+                {
+                  "children": [
+                    {
+                      "attributes": {},
+                      "definition": "c:pxPing",
+                      "id": "a1f0c0de-0000-4000-8000-000000000001",
+                      "type": "component"
+                    }
+                  ],
+                  "id": "ba975ac5-e4bc-4573-97b4-78647b4b39d4",
+                  "name": "col1",
+                  "title": "Column 1",
+                  "type": "region"
+                }
+              ],
+              "definition": "community_layout:section",
+              "id": "b3bab6eb-479e-46a7-9a4c-178c5aadedba",
+              "type": "component"
+            }
+          ],
+          "id": "206c7c63-d446-4338-b2b7-ee3f8827766d",
+          "name": "content",
+          "title": "Content",
+          "type": "region"
+        },
+        {
+          "children": [
+            {
+              "attributes": {
+                "customHeadTags": "",
+                "description": "",
+                "pageTitle": "Pratik Shinde | Salesforce Developer",
+                "recordId": "{!recordId}"
+              },
+              "definition": "community_builder:seoAssistant",
+              "id": "361fd661-ca52-446a-bda4-3b026570f36c",
+              "type": "component"
+            }
+          ],
+          "id": "cd4dd749-a24e-41c0-959e-8da5fd45e205",
+          "name": "sfdcHiddenRegion",
+          "title": "sfdcHiddenRegion",
+          "type": "region"
+        }
+      ],
+      "definition": "community_layout:sldsFlexibleLayout",
+      "id": "5f086e1d-e8a4-484f-bdf7-b763f0b74301",
+      "type": "component"
+    },
+    "dataProviders": [],
+    "themeLayoutType": "Inner",
+    "viewType": "home"
+  },
+  "urlName": "home"
+}
