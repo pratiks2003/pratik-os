@@ -37,7 +37,7 @@ private class ComplianceGuardTest {
 
   @IsTest
   static void matchesWholeWordsOnly() {
-    PortfolioTestData.configureCompliance(new List<String>{ 'tms' });
+    PortfolioTestData.configureCompliance(new List<String>{ 'item' });
     Project__c project = PortfolioTestData.project(
       'Processed 10k items',
       'Apex',
@@ -48,7 +48,7 @@ private class ComplianceGuardTest {
 
     Assert.isNotNull(
       project.Id,
-      '"items" must not match the blocked term "tms"'
+      '"items" must not match the blocked term "item"'
     );
   }
 
