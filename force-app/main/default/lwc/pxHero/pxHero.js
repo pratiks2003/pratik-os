@@ -54,6 +54,10 @@ export default class PxHero extends LightningElement {
       kind: "ok",
       text: `Loaded ${this.projects.length} projects · ${this.skills.length} skills from live records`
     });
+    lines.push({
+      kind: "ok",
+      text: "Atlas online · ask me anything about Pratik"
+    });
     if (p.Availability__c) {
       lines.push({
         kind: "status",

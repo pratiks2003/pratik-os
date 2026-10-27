@@ -73,6 +73,12 @@ export default class PxApp extends LightningElement {
     }
   }
 
+  handleOpenProject(event) {
+    this.template
+      .querySelector("c-px-projects")
+      ?.openProject(event.detail.slug);
+  }
+
   handleNavigate(event) {
     const target = this.template.querySelector(
       `[data-section="${event.detail.section}"]`

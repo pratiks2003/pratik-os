@@ -169,6 +169,13 @@ export default class PxProjects extends LightningElement {
       .map((m) => ({ key: m[1], label: m[1], text: m[2] }));
   }
 
+  /** Opens a project's dialog, e.g. from a link in an Atlas reply. */
+  @api
+  openProject(slug) {
+    this.filter = "All";
+    this.open(slug);
+  }
+
   handleFilter(event) {
     this.filter = event.currentTarget.dataset.name;
   }

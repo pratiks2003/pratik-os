@@ -132,6 +132,8 @@
 
 .screen {
   overflow-wrap: anywhere;
+  display: flex;
+  flex-direction: column;
   padding: 1.25rem 1.25rem 1.5rem;
   min-height: 15rem;
   font-family: var(--px-mono);

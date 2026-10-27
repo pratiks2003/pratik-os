@@ -43,6 +43,22 @@ node scripts/compliance/add-blocked-term.mjs "Term" "Other Term" # writes hashed
 sf project deploy start -d force-app/main/default/customMetadata --target-org <org>
 ```
 
+### Atlas, the AI assistant
+
+Atlas is an Agentforce agent written in **Agent Script** ([`Atlas.agent`](force-app/main/default/aiAuthoringBundles/Atlas/Atlas.agent)) and versioned in Git. Its actions are invocable Apex (`AtlasGetProfile`, `AtlasSearchProjects`, `AtlasGetProjectDetail`, `AtlasMatchJobDescription`, `AtlasCreateInquiry`) built on the same `PortfolioService` as the site, so Atlas only knows what is published, and learns a new project the moment it is saved.
+
+- **Guest access:** the site calls `AtlasChatController`, which invokes the agent through the `generateAiAgentResponse` invocable action. No connected app or stored secret is involved.
+- **Credit guard:** a kill switch and a daily message cap in `Portfolio_Setting__mdt`, metered per day in `Site_Metric_Day__c`, plus a per-chat cap and input length limit.
+- **Leads:** confirmed contact requests become `Inquiry__c` records, and `InquiryNotifier` emails every `Portfolio_Admin` user.
+- **Links:** Atlas names projects by exact title; the chat UI turns published titles into buttons that open the case study.
+
+To rebuild Atlas in a fresh org, create an Einstein Agent user, assign it the `Portfolio_Agent` permission set, set `default_agent_user` in the script, then:
+
+```bash
+sf agent publish authoring-bundle --api-name Atlas --target-org <alias>
+sf agent activate --api-name Atlas --version <n> --target-org <alias>
+```
+
 ## Development
 
 ```bash

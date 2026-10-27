@@ -1,0 +1,113 @@
+<template>
+  <div class="atlas">
+    <div
+      class="log"
+      role="log"
+      aria-live="polite"
+      aria-label="Conversation with Atlas"
+    >
+      <template for:each={messages} for:item="m">
+        <div key={m.key} class="msg">
+          <template lwc:if={m.isUser}>
+            <p class="user"><span class="prompt">❯</span> {m.displayText}</p>
+          </template>
+          <template lwc:else>
+            <div class="reply">
+              <template lwc:if={m.isNotice}
+                ><span class="badge notice">system</span></template
+              >
+              <template lwc:else><span class="badge">atlas</span></template>
+              <div class="body">
+                <template for:each={m.lines} for:item="line">
+                  <template lwc:if={line.isBlank}
+                    ><span key={line.key} class="gap"></span
+                  ></template>
+                  <template lwc:else>
+                    <p key={line.key} class="line">
+                      <template for:each={line.parts} for:item="part">
+                        <template lwc:if={part.isLink}>
+                          <button
+                            key={part.key}
+                            type="button"
+                            class="project-link"
+                            data-slug={part.slug}
+                            onclick={handleLink}
+                          >
+                            {part.text} ↗
+                          </button>
+                        </template>
+                        <template lwc:elseif={part.isBold}
+                          ><strong key={part.key}>{part.text}</strong></template
+                        >
+                        <template lwc:else
+                          ><span key={part.key}>{part.text}</span></template
+                        >
+                      </template>
+                    </p>
+                  </template>
+                </template>
+              </div>
+            </div>
+          </template>
+        </div>
+      </template>
+
+      <template lwc:if={pending}>
+        <p class="thinking" role="status">
+          <span class="badge">atlas</span> thinking<span class="dots"
+            ><span>.</span><span>.</span><span>.</span></span
+          >
+        </p>
+      </template>
+    </div>
+
+    <template lwc:if={showSuggestions}>
+      <div class="suggestions" role="group" aria-label="Suggested questions">
+        <template for:each={suggestions} for:item="s">
+          <button
+            key={s.key}
+            type="button"
+            class="chip"
+            data-key={s.key}
+            onclick={handleSuggestion}
+          >
+            {s.label}
+          </button>
+        </template>
+      </div>
+    </template>
+
+    <div class="composer">
+      <span class="prompt" aria-hidden="true">❯</span>
+      <label class="px-visually-hidden" for="atlas-input">Message Atlas</label>
+      <textarea
+        id="atlas-input"
+        class="input"
+        rows={rows}
+        maxlength={maxLength}
+        placeholder={placeholder}
+        disabled={inputDisabled}
+        value={draft}
+        oninput={handleInput}
+        onkeydown={handleKeydown}
+      ></textarea>
+      <button
+        type="button"
+        class="send"
+        onclick={handleSend}
+        disabled={sendDisabled}
+        aria-label="Send message"
+      >
+        ↵
+      </button>
+    </div>
+    <div class="footer">
+      <span>{remainingLabel}</span>
+      <template lwc:if={hasHistory}>
+        <button type="button" class="reset" onclick={handleReset}>
+          new chat
+        </button>
+      </template>
+    </div>
+  </div>
+</template>

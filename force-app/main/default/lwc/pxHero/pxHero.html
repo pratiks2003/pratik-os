@@ -40,11 +40,14 @@
       </ul>
     </div>
 
-    <div class="terminal px-card" aria-label="Live org status">
+    <div
+      class="terminal px-card"
+      aria-label="Live org status and Atlas, the AI assistant"
+    >
       <div class="chrome" aria-hidden="true">
         <span class="light red"></span><span class="light amber"></span
         ><span class="light green"></span>
-        <span class="title">zsh — pratik@salesforce</span>
+        <span class="title">atlas — pratik@salesforce</span>
       </div>
       <div class="screen" role="log" aria-live="polite">
         <template for:each={lines} for:item="line">
@@ -59,9 +62,7 @@
           </p>
         </template>
         <template lwc:if={booted}>
-          <p class="line">
-            <span class="prompt">$</span> <span class="cursor"></span>
-          </p>
+          <c-px-atlas projects={projects}></c-px-atlas>
         </template>
       </div>
     </div>

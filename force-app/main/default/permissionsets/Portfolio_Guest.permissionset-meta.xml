@@ -1,6 +1,10 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <PermissionSet xmlns="http://soap.sforce.com/2006/04/metadata">
-<classAccesses><apexClass>PortfolioController</apexClass><enabled
+<classAccesses>
+    <apexClass>AtlasChatController</apexClass>
+    <enabled>true</enabled>
+  </classAccesses>
+  <classAccesses><apexClass>PortfolioController</apexClass><enabled
     >true</enabled></classAccesses>
 <description
   >Read-only access for the public portfolio site guest user. Record visibility is limited to published records by sharing rules.</description>
