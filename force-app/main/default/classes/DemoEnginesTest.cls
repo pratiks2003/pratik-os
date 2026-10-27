@@ -148,6 +148,22 @@ private class DemoEnginesTest {
   }
 
   @IsTest
+  static void soldOutSeatsAnswerWithoutHolding() {
+    Id seatId = SeatBookingService.prepare(false);
+    update new Demo_Seat__c(Id = seatId, Seats_Left__c = 0);
+    SeatBookingService.contentionMs = 5000;
+
+    Long started = System.currentTimeMillis();
+    Map<String, Object> outcome = SeatBookingService.book(seatId, 'Ava');
+
+    Assert.isFalse((Boolean) outcome.get('booked'));
+    Assert.isTrue(
+      System.currentTimeMillis() - started < 2000,
+      'No payment hold for a sold-out seat'
+    );
+  }
+
+  @IsTest
   static void seatResultReportsOverbooking() {
     SeatBookingService.contentionMs = 0;
     Id seatId = SeatBookingService.prepare(false);

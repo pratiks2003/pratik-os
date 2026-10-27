@@ -50,9 +50,12 @@ public without sharing class SeatBookingService {
       : [SELECT Id, Seats_Left__c FROM Demo_Seat__c WHERE Id = :seatId];
     Integer seen = Integer.valueOf(seat.Seats_Left__c);
 
-    holdForPayment();
-
     Boolean booked = seen > 0;
+    if (booked) {
+      // Only a buyer who saw a free seat waits for payment, so repeated calls
+      // on a sold-out seat return at once instead of burning CPU.
+      holdForPayment();
+    }
     if (booked) {
       seat.Seats_Left__c = seen - 1;
       update seat;

@@ -2,7 +2,18 @@
 
 > A self-documenting Salesforce portfolio. The site doesn't just describe Salesforce skills, it runs on them.
 
-Built on **Experience Cloud (LWR)**, **Lightning Web Components**, **Apex**, and **Agentforce**.
+**Live site:** https://orgfarm-44877fa971-dev-ed.develop.my.site.com/portfolio/
+
+Built on **Experience Cloud (LWR)**, **Lightning Web Components**, **Apex** and **Agentforce**, deployed by GitHub Actions on every merge.
+
+![Hero with the Atlas AI assistant](docs/screenshots/hero-and-atlas.jpg)
+
+|                                                                                              |                                                                         |
+| -------------------------------------------------------------------------------------------- | ----------------------------------------------------------------------- |
+| ![Governor Limits Arena](docs/screenshots/demo-governor-limits.jpg)                          | ![Last Seat race condition](docs/screenshots/demo-last-seat.jpg)        |
+| **Live demos** run real Apex in the org: bulkified vs per-record code measured with `Limits` | A real race between two concurrent requests, then `SELECT … FOR UPDATE` |
+| ![Skill map](docs/screenshots/skill-map.jpg)                                                 | ![Behind the scenes](docs/screenshots/behind-the-scenes.jpg)            |
+| **Skill map** generated from project records                                                 | **Behind the scenes**: numbers CI writes into the org after each deploy |
 
 ## How it works
 
@@ -87,6 +98,16 @@ Two AI actions sit on every Project record, built on prompt templates in [`genAi
 - **Confidentiality Check** combines the blocked-term check with an AI review that flags internal system names, vendors, API names, people and internal figures, each with a suggested rewording.
 
 New inquiries alert every `Portfolio_Admin` user by email and by a custom notification (bell and mobile push).
+
+### Security review (M7)
+
+Everything an anonymous visitor can reach was inventoried and attacked:
+
+- The guest user can run four controllers (`PortfolioController`, `AtlasChatController`, `DemoController`, `SiteController`) and read seven content objects. No create, edit or delete, no API access, no View All.
+- Direct UI API and REST reads of inquiries return 401; admin-only Apex is refused; wrong record types, junk JSON and injected values get clean errors without stack traces; bot submissions are silently dropped.
+- Atlas was red-teamed for impersonation, contact-detail fishing, invented certifications, jailbreaks, off-topic requests, disparaging other candidates and salary or visa questions.
+- A CPU-amplification path in the Last Seat demo (repeated calls on a sold-out seat) was closed.
+- No missing alt text, unnamed controls, unlabelled fields or skipped headings; every text colour meets WCAG AA contrast.
 
 ## Development
 
