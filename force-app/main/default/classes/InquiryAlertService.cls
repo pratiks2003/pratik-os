@@ -45,12 +45,16 @@ public without sharing class InquiryAlertService implements Queueable {
       String status = (inquiry.Notification_Status__c ?? '')
         .replace('Email alert queued.', '')
         .trim();
-      updates.add(
-        new Inquiry__c(
-          Id = inquiry.Id,
-          Notification_Status__c = (status + ' ' + outcome).trim().left(255)
-        )
+      Inquiry__c changed = new Inquiry__c(
+        Id = inquiry.Id,
+        Notification_Status__c = (status + ' ' + outcome).trim().left(255)
       );
+      // Inquiries are created by the guest or Atlas agent user; hand them to an
+      // admin so they appear in the admin's own views.
+      if (!admins.isEmpty()) {
+        changed.OwnerId = admins[0];
+      }
+      updates.add(changed);
     }
     Database.update(updates, false);
   }

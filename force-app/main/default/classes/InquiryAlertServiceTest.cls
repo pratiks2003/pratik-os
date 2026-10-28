@@ -40,6 +40,11 @@ private class InquiryAlertServiceTest {
       status.contains('queued'),
       'The queued note is replaced by the outcome'
     );
+    Assert.isTrue(
+      InquiryAlertService.adminIds()
+        .contains([SELECT OwnerId FROM Inquiry__c].OwnerId),
+      'Inquiries are handed to an admin'
+    );
   }
 
   @IsTest
