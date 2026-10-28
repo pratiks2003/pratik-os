@@ -4,7 +4,7 @@
 <description>Leads captured by Atlas and the contact form.</description>
 <enableActivities>false</enableActivities>
 <enableBulkApi>true</enableBulkApi>
-<enableFeeds>false</enableFeeds>
+<enableFeeds>true</enableFeeds>
 <enableHistory>false</enableHistory>
 <enableReports>true</enableReports>
 <enableSearch>true</enableSearch>

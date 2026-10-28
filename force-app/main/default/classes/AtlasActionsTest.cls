@@ -121,12 +121,12 @@ private class AtlasActionsTest {
     Assert.areEqual(10, saved.Interest_Score__c, 'Score is clamped to 1-10');
     Assert.areEqual('New', saved.Status__c);
     Assert.isTrue(
-      InquiryNotifier.sentCount > 0,
-      'Portfolio admins are emailed'
+      InquiryNotifier.publishedCount > 0,
+      'An email alert is queued'
     );
     Assert.isTrue(
       [SELECT Notification_Status__c FROM Inquiry__c]
-        .Notification_Status__c.contains('Emailed'),
+        .Notification_Status__c.contains('alert'),
       'The outcome of the alert is recorded on the inquiry'
     );
   }

@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<CustomObject xmlns="http://soap.sforce.com/2006/04/metadata">
+  <deploymentStatus>Deployed</deploymentStatus>
+  <description
+  >Published when an inquiry is created, so the email alert runs as the Automated Process user whatever context created the inquiry.</description>
+  <eventType>HighVolume</eventType>
+  <label>Inquiry Alert</label>
+  <pluralLabel>Inquiry Alerts</pluralLabel>
+  <publishBehavior>PublishAfterCommit</publishBehavior>
+</CustomObject>
