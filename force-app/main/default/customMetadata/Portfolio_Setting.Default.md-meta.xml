@@ -23,4 +23,8 @@
     <field>Daily_Form_Cap__c</field>
     <value xsi:type="xsd:double">30</value>
   </values>
+  <values>
+    <field>Alert_Sender_Name__c</field>
+    <value xsi:type="xsd:string">INQ</value>
+  </values>
 </CustomMetadata>

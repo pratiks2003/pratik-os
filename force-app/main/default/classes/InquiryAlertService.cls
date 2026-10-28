@@ -1,12 +1,20 @@
 /**
- * Sends inquiry email alerts as posts on each admin's Chatter profile.
- * Called from the Inquiry_Alert__e subscriber, which runs as the Automated
- * Process user. Because that user is not the admin, Salesforce emails each
- * admin the post from its own DKIM-signed domain, which Gmail accepts.
+ * Emails inquiry alerts to every Portfolio_Admin user. Runs from the
+ * Inquiry_Alert__e subscriber as the Automated Process user, so Atlas and
+ * contact-form inquiries take exactly the same path.
+ *
+ * Alerts are sent from the verified org-wide email address named in
+ * Portfolio_Setting__mdt.Alert_Sender_Name__c, with Reply-To set to the
+ * visitor. If that address is missing or a send fails, the alert falls back
+ * to a post on each admin's Chatter profile, which Salesforce emails itself.
  */
 public without sharing class InquiryAlertService implements Queueable {
   @TestVisible
+  private static AlertSender sender = new OrgWideEmailSender();
+  @TestVisible
   private static MentionPoster poster = new ChatterMentionPoster();
+  @TestVisible
+  private static Id senderAddressOverride;
 
   private final Set<Id> inquiryIds;
 
@@ -16,32 +24,28 @@ public without sharing class InquiryAlertService implements Queueable {
 
   public void execute(QueueableContext context) {
     List<Id> admins = adminIds();
+    Id senderAddressId = senderAddressId();
     List<Inquiry__c> updates = new List<Inquiry__c>();
     for (Inquiry__c inquiry : [
       SELECT
         Id,
+        OwnerId,
         Name,
         Full_Name__c,
         Email__c,
         Company__c,
         Role_Hiring_For__c,
         Message__c,
+        Conversation_Summary__c,
+        Interest_Score__c,
         Source__c,
         Notification_Status__c
       FROM Inquiry__c
       WHERE Id IN :inquiryIds
     ]) {
-      String outcome;
-      try {
-        if (admins.isEmpty()) {
-          outcome = 'Email alert skipped: no Portfolio_Admin users.';
-        } else {
-          poster.post(inquiry.Id, admins, postText(inquiry));
-          outcome = 'Email alert sent via Chatter.';
-        }
-      } catch (Exception e) {
-        outcome = ('Email alert failed: ' + e.getMessage()).left(120);
-      }
+      String outcome = admins.isEmpty()
+        ? 'Email alert skipped: no Portfolio_Admin users.'
+        : alert(inquiry, admins, senderAddressId);
       String status = (inquiry.Notification_Status__c ?? '')
         .replace('Email alert queued.', '')
         .trim();
@@ -57,6 +61,54 @@ public without sharing class InquiryAlertService implements Queueable {
       updates.add(changed);
     }
     Database.update(updates, false);
+  }
+
+  private static String alert(
+    Inquiry__c inquiry,
+    List<Id> admins,
+    Id senderAddressId
+  ) {
+    String emailProblem = senderAddressId == null
+      ? 'org-wide sender not found'
+      : null;
+    if (senderAddressId != null) {
+      try {
+        emailProblem = sender.send(senderAddressId, admins, inquiry);
+        if (emailProblem == null) {
+          return 'Email sent from the org-wide address.';
+        }
+      } catch (Exception e) {
+        emailProblem = e.getMessage();
+      }
+    }
+    try {
+      poster.post(inquiry.Id, admins, postText(inquiry));
+      return ('Email via Chatter (' + emailProblem + ').').left(160);
+    } catch (Exception e) {
+      return ('Email alert failed: ' +
+        emailProblem +
+        '; Chatter: ' +
+        e.getMessage())
+        .left(160);
+    }
+  }
+
+  private static Id senderAddressId() {
+    if (senderAddressOverride != null) {
+      return senderAddressOverride;
+    }
+    String name = Portfolio_Setting__mdt.getInstance('Default')
+      ?.Alert_Sender_Name__c;
+    if (String.isBlank(name)) {
+      return null;
+    }
+    List<OrgWideEmailAddress> addresses = [
+      SELECT Id
+      FROM OrgWideEmailAddress
+      WHERE DisplayName = :name AND IsVerified = TRUE
+      LIMIT 1
+    ];
+    return addresses.isEmpty() ? null : addresses[0].Id;
   }
 
   public static List<Id> adminIds() {
@@ -94,29 +146,106 @@ public without sharing class InquiryAlertService implements Queueable {
         : '\n\n' + inquiry.Message__c.left(2000));
   }
 
+  @TestVisible
+  private static String emailBody(Inquiry__c inquiry) {
+    return String.join(
+      new List<String>{
+        'New portfolio inquiry ' + inquiry.Name,
+        '',
+        'Source: ' + (inquiry.Source__c ?? '-'),
+        'Name: ' + inquiry.Full_Name__c,
+        'Email: ' + inquiry.Email__c,
+        'Company: ' + (inquiry.Company__c ?? '-'),
+        'Role: ' + (inquiry.Role_Hiring_For__c ?? '-'),
+        'Interest score: ' +
+        (inquiry.Interest_Score__c == null
+          ? '-'
+          : String.valueOf(inquiry.Interest_Score__c)),
+        '',
+        'Message:',
+        inquiry.Message__c ?? '-',
+        '',
+        'Conversation summary:',
+        inquiry.Conversation_Summary__c ?? '-',
+        '',
+        'Open in Salesforce: ' + recordLink(inquiry.Id),
+        '',
+        'Reply to this email to answer ' +
+        inquiry.Full_Name__c +
+        ' directly.'
+      },
+      '\n'
+    );
+  }
+
+  private static String recordLink(Id recordId) {
+    return Url.getOrgDomainUrl().toExternalForm() +
+      '/lightning/r/Inquiry__c/' +
+      recordId +
+      '/view';
+  }
+
+  public interface AlertSender {
+    /** Returns null on success, or the reason the email was not sent. */
+    String send(Id senderAddressId, List<Id> recipientIds, Inquiry__c inquiry);
+  }
+
+  public class OrgWideEmailSender implements AlertSender {
+    public String send(
+      Id senderAddressId,
+      List<Id> recipientIds,
+      Inquiry__c inquiry
+    ) {
+      List<Messaging.SingleEmailMessage> emails = new List<Messaging.SingleEmailMessage>();
+      for (Id recipientId : recipientIds) {
+        Messaging.SingleEmailMessage email = new Messaging.SingleEmailMessage();
+        email.setOrgWideEmailAddressId(senderAddressId);
+        email.setTargetObjectId(recipientId);
+        email.setSaveAsActivity(false);
+        if (String.isNotBlank(inquiry.Email__c)) {
+          email.setReplyTo(inquiry.Email__c);
+        }
+        email.setSubject(
+          'New portfolio inquiry ' +
+            inquiry.Name +
+            ': ' +
+            inquiry.Full_Name__c +
+            (String.isBlank(inquiry.Company__c)
+              ? ''
+              : ' (' + inquiry.Company__c + ')')
+        );
+        email.setPlainTextBody(emailBody(inquiry));
+        emails.add(email);
+      }
+      for (
+        Messaging.SendEmailResult result : Messaging.sendEmail(emails, false)
+      ) {
+        if (!result.isSuccess()) {
+          return result.getErrors()[0].getMessage();
+        }
+      }
+      return null;
+    }
+  }
+
   public interface MentionPoster {
     void post(Id recordId, List<Id> mentionIds, String text);
   }
 
   /**
-   * Posts on each admin's Chatter profile with plain DML (the Automated
-   * Process user cannot use the Connect API). Salesforce emails "posted on
-   * your profile" notifications from its own DKIM-signed domain.
+   * Fallback: posts on each admin's Chatter profile with plain DML (the
+   * Automated Process user cannot use the Connect API). Salesforce emails
+   * "posted on your profile" notifications from its own domain.
    */
   public class ChatterMentionPoster implements MentionPoster {
     public void post(Id recordId, List<Id> mentionIds, String text) {
-      String link =
-        Url.getOrgDomainUrl().toExternalForm() +
-        '/lightning/r/Inquiry__c/' +
-        recordId +
-        '/view';
       List<FeedItem> posts = new List<FeedItem>();
       for (Id adminId : mentionIds) {
         posts.add(
           new FeedItem(
             ParentId = adminId,
             Body = text.trim().left(9000),
-            LinkUrl = link,
+            LinkUrl = recordLink(recordId),
             Title = 'Open the inquiry'
           )
         );

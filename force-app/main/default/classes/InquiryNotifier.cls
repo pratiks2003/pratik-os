@@ -1,11 +1,8 @@
 /**
  * Alerts every Portfolio_Admin user when a new inquiry arrives:
  *  - a custom notification (bell icon and mobile push), sent straight away;
- *  - an Inquiry_Alert__e event, whose subscriber posts on each admin's
- *    Chatter profile. Salesforce emails that post from its own DKIM-signed
- *    domain, which Gmail accepts. (A direct Apex email would carry the
- *    sending user's gmail.com address without Google's DKIM signature, and
- *    Gmail blocks it with 550-5.7.30.)
+ *  - an Inquiry_Alert__e event, whose subscriber (InquiryAlertService)
+ *    emails the admins from the verified org-wide address.
  *
  * Runs without sharing because inquiries are created by the site guest user
  * and the Atlas agent user, who cannot see admin assignments; it only reads

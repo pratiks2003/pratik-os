@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+  <fullName>Alert_Sender_Name__c</fullName>
+  <fieldManageability>DeveloperControlled</fieldManageability>
+  <inlineHelpText
+  >Display name of the verified org-wide email address that inquiry alerts are sent from.</inlineHelpText>
+  <label>Alert Sender Name</label>
+  <length>80</length>
+  <required>false</required>
+  <type>Text</type>
+</CustomField>
