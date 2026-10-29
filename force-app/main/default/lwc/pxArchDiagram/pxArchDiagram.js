@@ -23,7 +23,8 @@ export default class PxArchDiagram extends LightningElement {
   }
 
   get svgStyle() {
-    return `min-width: ${Math.min(Math.ceil(this.layout.width), 720)}px`;
+    // Never shrink below 75% of natural size; wider diagrams scroll instead.
+    return `min-width: ${Math.ceil(this.layout.width * 0.75)}px`;
   }
 
   get description() {

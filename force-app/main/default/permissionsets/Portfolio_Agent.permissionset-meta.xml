@@ -24,6 +24,11 @@
 <description
   >Read-only access for the public portfolio site guest user. Record visibility is limited to published records by sharing rules.</description>
 <fieldPermissions>
+    <editable>false</editable>
+    <field>Project__c.My_Role__c</field>
+    <readable>true</readable>
+  </fieldPermissions>
+  <fieldPermissions>
     <editable>true</editable>
     <field>Inquiry__c.Notification_Status__c</field>
     <readable>true</readable>

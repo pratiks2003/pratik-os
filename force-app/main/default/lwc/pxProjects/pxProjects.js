@@ -127,6 +127,7 @@ export default class PxProjects extends LightningElement {
       deepDive: r.Technical_Deep_Dive__c,
       diagram: r.Architecture_DSL__c,
       repoUrl: r.Repo_URL__c,
+      role: r.My_Role__c,
       skills: project.skills || [],
       star: this.parseStar(r.STAR_Story__c)
     };

@@ -15,6 +15,11 @@
   >Full access to manage portfolio content, inquiries and analytics.</description>
 <fieldPermissions>
     <editable>true</editable>
+    <field>Project__c.My_Role__c</field>
+    <readable>true</readable>
+  </fieldPermissions>
+  <fieldPermissions>
+    <editable>true</editable>
     <field>Org_Snapshot__c.Apex_Classes__c</field>
     <readable>true</readable>
   </fieldPermissions>

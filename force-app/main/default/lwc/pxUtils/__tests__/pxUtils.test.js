@@ -68,6 +68,39 @@ describe("parseDiagram and layoutDiagram", () => {
     );
   });
 
+  it("lays long flows out top to bottom and loops back on the right", () => {
+    const names = [
+      "Inbound Service",
+      "Mapping Layer",
+      "Update Service",
+      "Record Triggers",
+      "Relevance Filter",
+      "Orchestrator",
+      "Callout Executor"
+    ];
+    const chain = names
+      .slice(1)
+      .map((name, i) => `${names[i]} -> ${name} : step ${i}`)
+      .concat([
+        "Callout Executor -> Callout Executor : retry",
+        "Callout Executor -> Inbound Service : again"
+      ])
+      .join("\n");
+    const layout = layoutDiagram(parseDiagram(chain));
+    expect(layout.direction).toBe("TB");
+    const y = Object.fromEntries(layout.nodes.map((n) => [n.id, n.y]));
+    expect(y["inbound service"]).toBeLessThan(y["mapping layer"]);
+    expect(y.orchestrator).toBeLessThan(y["callout executor"]);
+    expect(layout.edges.filter((e) => e.feedback)).toHaveLength(2);
+    expect(layout.width).toBeLessThan(900);
+  });
+
+  it("keeps short flows left to right", () => {
+    expect(layoutDiagram(parseDiagram("A -> B : x\nB -> C")).direction).toBe(
+      "LR"
+    );
+  });
+
   it("returns an empty layout for no diagram", () => {
     expect(layoutDiagram(parseDiagram("")).nodes).toEqual([]);
   });

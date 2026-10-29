@@ -143,16 +143,9 @@ const DIAGRAM = {
   margin: 16
 };
 
-/**
- * Left-to-right layered layout. Each node sits one column right of its
- * deepest predecessor (longest path); edges that would point backwards are
- * treated as feedback and routed underneath.
- */
-export function layoutDiagram(graph) {
+/** Ranks nodes into layers (longest path) and marks back edges in cycles. */
+function rankDiagram(graph) {
   const { nodes, edges } = graph;
-  if (!nodes.length) {
-    return { width: 0, height: 0, nodes: [], edges: [] };
-  }
   const outgoing = new Map(nodes.map((n) => [n.id, []]));
   edges.forEach((e, index) => outgoing.get(e.from).push({ ...e, index }));
 
@@ -186,6 +179,37 @@ export function layoutDiagram(graph) {
     }
   }
 
+  // Pull entry points (no incoming edges) down to just above their nearest
+  // target, so a button or scheduler that feeds a deep node sits beside it
+  // instead of drawing a long line from the top row.
+  const hasIncoming = new Set();
+  edges.forEach((e, index) => {
+    if (!backEdges.has(index) && e.from !== e.to) {
+      hasIncoming.add(e.to);
+    }
+  });
+  nodes.forEach((n) => {
+    if (hasIncoming.has(n.id)) {
+      return;
+    }
+    const targets = edges
+      .filter(
+        (e, index) => e.from === n.id && !backEdges.has(index) && e.to !== n.id
+      )
+      .map((e) => layer.get(e.to));
+    if (targets.length) {
+      layer.set(n.id, Math.max(0, Math.min(...targets) - 1));
+    }
+  });
+  return { backEdges, layer };
+}
+
+/**
+ * Left-to-right layered layout. Each node sits one column right of its
+ * deepest predecessor; feedback edges are routed underneath.
+ */
+function layoutLeftToRight(graph, { backEdges, layer }) {
+  const { nodes, edges } = graph;
   const columns = [];
   nodes.forEach((n) => {
     const column = layer.get(n.id);
@@ -274,6 +298,207 @@ export function layoutDiagram(graph) {
     })),
     edges: routedEdges
   };
+}
+
+/** Point at t on a cubic Bezier given as [x, y] control points. */
+function bezierPoint(p0, p1, p2, p3, t) {
+  const u = 1 - t;
+  const a = u * u * u;
+  const b = 3 * u * u * t;
+  const c = 3 * u * t * t;
+  const d = t * t * t;
+  return [
+    a * p0[0] + b * p1[0] + c * p2[0] + d * p3[0],
+    a * p0[1] + b * p1[1] + c * p2[1] + d * p3[1]
+  ];
+}
+
+/**
+ * Top-to-bottom layered layout for long flows. Each layer is a centred row;
+ * nodes are ordered by the average position of their predecessors to reduce
+ * crossings. Edges that skip rows get an invisible waypoint in every row they
+ * cross, so they run between nodes rather than through them. Feedback edges
+ * and self-loops curve around the right side.
+ */
+function layoutTopToBottom(graph, { backEdges, layer }) {
+  const { nodes, edges } = graph;
+  const gapX = 28;
+  const gapY = 72;
+  const waypointWidth = 14;
+  const widthOf = (item) => {
+    return item.waypoint
+      ? waypointWidth
+      : item.label.length * DIAGRAM.charWidth + DIAGRAM.nodePadding;
+  };
+  const isFeedback = (e, index) =>
+    backEdges.has(index) || layer.get(e.to) <= layer.get(e.from);
+
+  const rows = [];
+  const addToRow = (item, r) => (rows[r] = rows[r] || []).push(item);
+  nodes.forEach((n) => addToRow(n, layer.get(n.id)));
+
+  const predecessors = new Map(nodes.map((n) => [n.id, []]));
+  const waypoints = new Map();
+  const outDegree = new Map();
+  const inDegree = new Map();
+  edges.forEach((e, index) => {
+    if (isFeedback(e, index)) {
+      return;
+    }
+    outDegree.set(e.from, (outDegree.get(e.from) || 0) + 1);
+    inDegree.set(e.to, (inDegree.get(e.to) || 0) + 1);
+    let previous = e.from;
+    const chain = [];
+    for (let r = layer.get(e.from) + 1; r < layer.get(e.to); r++) {
+      const id = `~${index}~${r}`;
+      addToRow({ id, waypoint: true }, r);
+      predecessors.set(id, [previous]);
+      chain.push(id);
+      previous = id;
+    }
+    waypoints.set(index, chain);
+    predecessors.get(e.to).push(previous);
+  });
+
+  const rowWidth = (row) =>
+    row.reduce((sum, item) => sum + widthOf(item), 0) + gapX * (row.length - 1);
+  const maxRowWidth = Math.max(...rows.map(rowWidth));
+
+  const placed = new Map();
+  rows.forEach((row, r) => {
+    const centre = (item) => {
+      const known = predecessors.get(item.id).filter((id) => placed.has(id));
+      return known.length
+        ? known.reduce(
+            (sum, id) => sum + placed.get(id).x + placed.get(id).w / 2,
+            0
+          ) / known.length
+        : Number.MAX_SAFE_INTEGER;
+    };
+    if (r > 0) {
+      row.sort((a, b) => centre(a) - centre(b));
+    }
+    let x = DIAGRAM.margin + (maxRowWidth - rowWidth(row)) / 2;
+    row.forEach((item) => {
+      const w = widthOf(item);
+      placed.set(item.id, {
+        ...item,
+        x,
+        y: DIAGRAM.margin + r * (DIAGRAM.nodeHeight + gapY),
+        w,
+        h: DIAGRAM.nodeHeight
+      });
+      x += w + gapX;
+    });
+  });
+
+  const loopX = DIAGRAM.margin + maxRowWidth + 48;
+  let feedbackCount = 0;
+  const routedEdges = edges.map((e, index) => {
+    const a = placed.get(e.from);
+    const b = placed.get(e.to);
+    let path;
+    let arrow;
+    let labelX;
+    let labelY;
+    const feedback = isFeedback(e, index);
+    if (feedback) {
+      const rx = loopX + 18 * feedbackCount++;
+      const sx = a.x + a.w;
+      const tx = b.x + b.w;
+      const sy = a.y + a.h / 2 - (a === b ? 8 : 0);
+      const ty = b.y + b.h / 2 + (a === b ? 8 : 0);
+      path = `M ${sx} ${sy} C ${rx} ${sy}, ${rx} ${ty}, ${tx + 8} ${ty}`;
+      arrow = `M ${tx} ${ty} L ${tx + 8} ${ty - 4.5} L ${tx + 8} ${ty + 4.5} Z`;
+      labelX = rx;
+      labelY = (sy + ty) / 2 + 4;
+    } else {
+      const tx = b.x + b.w / 2;
+      const ty = b.y;
+      // Ports: leave the source, pass straight through each waypoint, enter the target.
+      const points = [[a.x + a.w / 2, a.y + a.h]];
+      waypoints.get(index).forEach((id) => {
+        const v = placed.get(id);
+        points.push([v.x + v.w / 2, v.y], [v.x + v.w / 2, v.y + v.h]);
+      });
+      points.push([tx, ty - 8]);
+      const segments = [];
+      path = `M ${points[0][0]} ${points[0][1]}`;
+      for (let i = 1; i < points.length; i++) {
+        const [px, py] = points[i - 1];
+        const [qx, qy] = points[i];
+        if (i % 2 === 1) {
+          const mid = (py + qy) / 2;
+          segments.push([
+            [px, py],
+            [px, mid],
+            [qx, mid],
+            [qx, qy]
+          ]);
+          path += ` C ${px} ${mid}, ${qx} ${mid}, ${qx} ${qy}`;
+        } else {
+          path += ` L ${qx} ${qy}`;
+        }
+      }
+      arrow = `M ${tx} ${ty} L ${tx - 4.5} ${ty - 8} L ${tx + 4.5} ${ty - 8} Z`;
+      // Put each label where its edges spread out: near the targets of a
+      // fan-out, near the sources of a fan-in, so labels do not pile up.
+      const fanOut =
+        (outDegree.get(e.from) || 0) > 1 &&
+        (outDegree.get(e.from) || 0) >= (inDegree.get(e.to) || 0);
+      const fanIn = (inDegree.get(e.to) || 0) > 1;
+      const segment = fanOut ? segments[segments.length - 1] : segments[0];
+      const t = fanOut ? 0.72 : fanIn ? 0.28 : 0.5;
+      [labelX, labelY] = bezierPoint(...segment, t);
+      labelY += 4;
+    }
+    return {
+      key: `e${index}`,
+      path,
+      arrow,
+      label: e.label,
+      labelX,
+      labelY,
+      feedback
+    };
+  });
+
+  return {
+    direction: "TB",
+    width:
+      DIAGRAM.margin * 2 +
+      maxRowWidth +
+      (feedbackCount ? 150 + 18 * feedbackCount : 0),
+    height:
+      DIAGRAM.margin * 2 +
+      rows.length * DIAGRAM.nodeHeight +
+      (rows.length - 1) * gapY,
+    nodes: [...placed.values()]
+      .filter((n) => !n.waypoint)
+      .map((n) => ({
+        ...n,
+        key: n.id,
+        textX: n.x + n.w / 2,
+        textY: n.y + n.h / 2 + 4
+      })),
+    edges: routedEdges
+  };
+}
+
+/**
+ * Lays out an architecture diagram, choosing left-to-right for short flows
+ * and top-to-bottom for long ones: whichever shows more legibly at the given
+ * display width.
+ */
+export function layoutDiagram(graph, displayWidth = 856) {
+  if (!graph.nodes.length) {
+    return { direction: "LR", width: 0, height: 0, nodes: [], edges: [] };
+  }
+  const ranks = rankDiagram(graph);
+  const leftToRight = { direction: "LR", ...layoutLeftToRight(graph, ranks) };
+  const topToBottom = layoutTopToBottom(graph, ranks);
+  const fit = (layout) => Math.min(1, displayWidth / layout.width);
+  return fit(topToBottom) > fit(leftToRight) + 0.05 ? topToBottom : leftToRight;
 }
 
 const MAP = {

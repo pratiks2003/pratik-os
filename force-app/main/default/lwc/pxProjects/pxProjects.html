@@ -81,6 +81,11 @@
         <p class="dialog-meta">{selected.category} · {selected.type}</p>
         <h3 id="dialog-title" class="dialog-title">{selected.title}</h3>
         <p class="dialog-tagline">{selected.tagline}</p>
+        <template lwc:if={selected.role}>
+          <p class="dialog-role">
+            <span class="role-label">my role</span> {selected.role}
+          </p>
+        </template>
         <ul class="dialog-metrics">
           <template for:each={selected.metrics} for:item="metric">
             <li key={metric} class="px-tag accent">{metric}</li>

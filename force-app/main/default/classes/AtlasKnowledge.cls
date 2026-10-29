@@ -163,6 +163,7 @@ public with sharing class AtlasKnowledge {
       ')',
       'Tagline: ' + r.Tagline__c,
       'Metrics: ' + (r.Metrics__c ?? ''),
+      'Pratik\'s role: ' + (r.My_Role__c ?? 'not specified'),
       'Tech stack: ' + String.join(project.skills, ', '),
       'Business impact: ' + (r.Business_Impact__c ?? ''),
       'Technical deep dive:\n' + (r.Technical_Deep_Dive__c ?? '')
